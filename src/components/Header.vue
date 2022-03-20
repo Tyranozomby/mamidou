@@ -1,6 +1,5 @@
 <template>
   <header>
-    oooooooooooooooooooooooooooooo
     <select :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
       <option value="ta">Taille/Age</option>
       <option value="td">Taille/Date</option>

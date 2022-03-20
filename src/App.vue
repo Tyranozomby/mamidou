@@ -1,15 +1,22 @@
 <template>
-  <Header v-model="type"/>
-  <Graph :type="type"/>
+  <div>
+    <Header v-model="type"/>
+    <div id="content">
+      <Graph id="graph" :type="type"/>
+      <SidePage class="side"/>
+    </div>
+  </div>
 </template>
 
 <script>
 import Header from "@/components/Header";
 import Graph from "@/components/Graph";
+import SidePage from "@/components/SidePage";
 
 export default {
   name: 'App',
   components: {
+    SidePage,
     Graph,
     Header
   },
@@ -22,5 +29,18 @@ export default {
 </script>
 
 <style>
+#content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#graph {
+  flex-grow: 2;
+}
+
+.side {
+  display: none;
+}
 
 </style>

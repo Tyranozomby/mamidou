@@ -4,6 +4,12 @@ const fs = require("fs");
 
 app.use(express.json());
 
+const cors = require('cors');
+
+if (cors.NODE_ENV !== 'production') {
+    app.use(cors())
+}
+
 const CHILDREN_FILE = __dirname + "/../data/children.json";
 const DATA_FILE = __dirname + "/../data/data.json";
 
@@ -114,7 +120,7 @@ app.put("/api/children/:child", (req, res) => {
     if (!req.body.color)
         req.body.color = "#FFFFFF"
 
-    const val = {"date ": req.body.date, "color": req.body.color};
+    const val = {"date": req.body.date, "color": req.body.color};
 
     fs.readFile(CHILDREN_FILE, 'utf8', function (err, data) {
         let json = JSON.parse(data)
@@ -144,7 +150,7 @@ app.put("/api/data/:child", (req, res) => {
         req.body.value = 0
 
 
-    const val = {"date ": req.body.date, "value": req.body.value};
+    const val = {"date": req.body.date, "value": req.body.value};
 
     fs.readFile(DATA_FILE, 'utf8', function (err, data) {
         let json = JSON.parse(data)
