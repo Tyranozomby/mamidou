@@ -5,6 +5,7 @@ const fs = require("fs");
 app.use(express.json());
 
 const cors = require('cors');
+const ParseDate = require("date-fns/parse");
 
 if (cors.NODE_ENV !== 'production') {
     app.use(cors())
@@ -18,7 +19,6 @@ const DATA_FILE = __dirname + "/../data/data.json";
 app.get('/api/children', (req, res) => {
 
     fs.readFile(CHILDREN_FILE, 'utf8', function (err, data) {
-        console.log(data);
         res.send(data);
     });
 })
@@ -29,8 +29,7 @@ app.get('/api/children/:child', (req, res) => {
     fs.readFile(CHILDREN_FILE, 'utf8', function (err, data) {
         const json = JSON.parse(data);
 
-        const txt = JSON.stringify(json[child]);
-        console.log(txt);
+        const txt = JSON.stringify(json[child], null, 2);
         res.send(txt);
     });
 })
@@ -39,7 +38,6 @@ app.get('/api/children/:child', (req, res) => {
 app.get('/api/data', (req, res) => {
 
     fs.readFile(DATA_FILE, 'utf8', function (err, data) {
-        console.log(data);
         res.send(data);
     });
 })
@@ -51,8 +49,7 @@ app.get('/api/data/:child', (req, res) => {
     fs.readFile(DATA_FILE, 'utf8', function (err, data) {
         const json = JSON.parse(data);
 
-        const txt = JSON.stringify(json[child]);
-        console.log(txt);
+        const txt = JSON.stringify(json[child], null, 2);
         res.send(txt);
     });
 })
@@ -72,7 +69,8 @@ app.patch("/api/data/:child/:date", (req, res) => {
                 if (json[child][i].date === date)
                     json[child][i].value = newVal;
 
-        const txt = JSON.stringify(json);
+        json[child].sort(dataSort)
+        const txt = JSON.stringify(json, null, 2);
         fs.writeFile(DATA_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
@@ -96,7 +94,7 @@ app.patch("/api/children/:child", (req, res) => {
         if (json[child] && newColor)
             json[child].color = newColor;
 
-        const txt = JSON.stringify(json);
+        const txt = JSON.stringify(json, null, 2);
         fs.writeFile(CHILDREN_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
@@ -127,7 +125,7 @@ app.put("/api/children/:child", (req, res) => {
 
         json[child] = val;
 
-        const txt = JSON.stringify(json);
+        const txt = JSON.stringify(json, null, 2);
         fs.writeFile(CHILDREN_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
@@ -146,8 +144,10 @@ app.put("/api/data/:child", (req, res) => {
 
     if (!req.body.date)
         req.body.date = "01/01/2022"
-    if (!req.body.value || !Number.isInteger(req.body.value))
+    if (!req.body.value)
         req.body.value = 0
+    else if (!Number.isInteger(req.body.value))
+        req.body.value = Number(req.body.value)
 
 
     const val = {"date": req.body.date, "value": req.body.value};
@@ -158,18 +158,15 @@ app.put("/api/data/:child", (req, res) => {
         if (!json[child])
             json[child] = [];
 
-        if (Array.isArray(val))
-            json[child].concat(val);
-        else
-            json[child].push(val);
+        json[child].push(val);
+        json[child].sort(dataSort)
 
-        const txt = JSON.stringify(json);
+        const txt = JSON.stringify(json, null, 2);
         fs.writeFile(DATA_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
                 res.sendStatus(500);
             } else {
-                console.log("Résultat: " + txt);
                 res.send(txt);
             }
         })
@@ -199,7 +196,7 @@ app.delete("/api/data/:child/:position", (req, res) => {
         if (json[child])
             json[child].splice(position, 1);
 
-        const txt = JSON.stringify(json);
+        const txt = JSON.stringify(json, null, 2);
         fs.writeFile(DATA_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
@@ -227,7 +224,7 @@ function deleteData(req, res, path) {
         let json = JSON.parse(data)
         delete json[child];
 
-        const txt = JSON.stringify(json);
+        const txt = JSON.stringify(json, null, 2);
         fs.writeFile(path, txt, (err) => {
             if (err) {
                 console.log(err);
@@ -238,4 +235,14 @@ function deleteData(req, res, path) {
             }
         })
     });
+}
+
+function dataSort(a, b) {
+    const date1 = ParseDate(a.date, 'dd/MM/yyyy', new Date())
+    const date2 = ParseDate(b.date, 'dd/MM/yyyy', new Date())
+
+    if (date1 < date2)
+        return -1
+    else
+        return 1
 }

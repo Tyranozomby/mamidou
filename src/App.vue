@@ -1,9 +1,10 @@
 <template>
   <div>
-    <Header v-model="type"/>
+    <Header id="header" v-model="type"/>
     <div id="content">
-      <Graph id="graph" :type="type"/>
-      <SidePage class="side"/>
+      <Graph id="graph" :type="type" :children="children" :donnees="donnees"/>
+      <SidePage id="side" :children="children" :donnees="donnees" @updateChildren="updateChildren"
+                @updateData="updateData"/>
     </div>
   </div>
 </template>
@@ -12,6 +13,7 @@
 import Header from "@/components/Header";
 import Graph from "@/components/Graph";
 import SidePage from "@/components/SidePage";
+import axios from "axios";
 
 export default {
   name: 'App',
@@ -22,25 +24,55 @@ export default {
   },
   data() {
     return {
-      type: "ta"
+      type: "ta",
+      children: null,
+      donnees: null
     }
   },
+  methods: {
+    updateChildren: async function (data) {
+      if (!data) {
+        const response = await axios.get("//localhost:3000/api/children");
+        data = response.data;
+      }
+      this.children = data;
+    },
+    updateData: async function (data) {
+      if (!data) {
+        const response = await axios.get("//localhost:3000/api/data");
+        data = response.data;
+      }
+      this.donnees = data;
+    },
+  },
+  created() {
+    this.updateChildren();
+    this.updateData();
+  }
 }
 </script>
 
 <style>
+#header {
+  height: 5vh
+}
+
 #content {
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 90%;
 }
 
 #graph {
   flex-grow: 2;
 }
 
-.side {
-  display: none;
+#side {
+  padding: 1rem;
+  width: 20%;
+  display: block;
+  background-color: darkcyan;
 }
 
 </style>

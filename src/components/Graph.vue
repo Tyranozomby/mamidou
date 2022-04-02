@@ -8,12 +8,10 @@
 <script>
 import {ScatterChart} from 'vue-chart-3';
 import 'chartjs-adapter-date-fns';
-import axios from 'axios';
 
 import {Chart, registerables} from "chart.js";
-
-import ParseDate from 'date-fns/parse' // https://date-fns.org/docs/
-import {fr} from 'date-fns/locale';
+import ParseDate from "date-fns/parse";
+import {fr} from "date-fns/locale";
 
 Chart.register(...registerables);
 
@@ -21,13 +19,7 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Graph',
   components: {ScatterChart},
-  props: ["type"],
-  data: function () {
-    return {
-      children: null,
-      donnees: null
-    }
-  },
+  props: ["type", "donnees", "children"],
   computed: {
     dataAge: function () {
       if (this.donnees == null)
@@ -39,26 +31,31 @@ export default {
         const child = this.children[nom];
 
         let data = [];
-        const donnee = this.donnees[nom];
 
-        for (let i = 0; i < donnee.length; i++) {
+        if (this.donnees[nom]) {
+          const donnee = this.donnees[nom];
 
-          const dob = this.strToDate(child.date)
-          const mesure = this.strToDate(donnee[i].date)
+          for (let i = 0; i < donnee.length; i++) {
 
-          const num = (mesure.getTime() - dob.getTime()) / 1000 / 60 / 60 / 24 / 365;
-          const x = Number((Math.abs(num) * 10).toPrecision(15));
+            const dob = this.strToDate(child.date)
+            const mesure = this.strToDate(donnee[i].date)
 
-          data.push({x: Math.round(x) / 10 * Math.sign(num), y: donnee[i].value})
+            const num = (mesure.getTime() - dob.getTime()) / 1000 / 60 / 60 / 24 / 365;
+            const x = Number((Math.abs(num) * 10).toPrecision(15));
+
+            data.push({x: Math.round(x) / 10 * Math.sign(num), y: donnee[i].value})
+          }
         }
-
         datasets.datasets.push({
           showLine: true,
           label: nom,
           data: data,
           backgroundColor: child.color,
-          borderColor: child.color
+          borderColor: child.color,
+          pointRadius: 8,
+          pointHoverRadius: 9
         });
+
       }
       return datasets
     },
@@ -85,7 +82,9 @@ export default {
           label: nom,
           data: data,
           backgroundColor: child.color,
-          borderColor: child.color
+          borderColor: child.color,
+          pointRadius: 8,
+          pointHoverRadius: 9
         });
       }
       return datasets
@@ -95,6 +94,22 @@ export default {
         plugins: {
           legend: {
             position: 'bottom',
+            labels: {
+              font: {
+                size: 16
+              },
+              boxWidth: 50,
+              boxHeight: 20,
+              sort: (a, b) => {
+                const date1 = this.strToDate(this.children[a.text].date);
+                const date2 = this.strToDate(this.children[b.text].date);
+
+                if (date1 < date2)
+                  return 1
+                else
+                  return -1
+              }
+            }
           },
           title: {
             display: true,
@@ -110,7 +125,29 @@ export default {
               },
               label: function (context) {
                 return context.raw.x + " - " + context.raw.y + "cm";
+              },
+              footer: (context) => {
+                const data = context[0].dataset.data;
+                for (let i = 0; i < data.length; i++) {
+                  if (data[i] === context[0].raw) {
+                    const date = this.donnees[context[0].dataset.label][i].date;
+                    return date.replaceAll('/', '-')
+                  }
+                }
+                return "Error"
               }
+            },
+            titleAlign: 'center',
+            titleFont: {
+              size: 16
+            },
+            bodyFont: {
+              size: 15
+            },
+            footerFont: {
+              weight: 'normal',
+              style: 'italic',
+              size: 15
             }
           }
         }
@@ -120,7 +157,23 @@ export default {
       return {
         plugins: {
           legend: {
-            position: 'bottom'
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 16
+              },
+              boxWidth: 50,
+              boxHeight: 20,
+              sort: (a, b) => {
+                const date1 = this.strToDate(this.children[a.text].date);
+                const date2 = this.strToDate(this.children[b.text].date);
+
+                if (date1 < date2)
+                  return 1
+                else
+                  return -1
+              }
+            }
           },
           title: {
             display: true,
@@ -144,6 +197,18 @@ export default {
 
                 return day + " " + month + " " + year + " - " + context.raw.y + "cm";
               }
+            },
+            titleAlign: 'center',
+            titleFont: {
+              size: 16
+            },
+            bodyFont: {
+              size: 15
+            },
+            footerFont: {
+              weight: 'normal',
+              style: 'italic',
+              size: 15
             }
           }
         },
@@ -159,27 +224,16 @@ export default {
     }
   },
   methods: {
-    getChildren: async function () {
-      const response = await axios.get("//localhost:3000/api/children");
-      this.children = response.data;
-    },
-    getData: async function () {
-      const response = await axios.get("//localhost:3000/api/data");
-      this.donnees = response.data;
-    },
     strToDate: function (str) {
       return ParseDate(str, 'dd/MM/yyyy', new Date(), {locale: fr})
     }
-  },
-  created() {
-    this.getChildren();
-    this.getData();
   }
+
 };
 </script>
 
 <style scoped>
 .graph {
-  height: 90vh;
+  height: 95vh;
 }
 </style>

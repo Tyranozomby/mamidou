@@ -4,6 +4,7 @@
       <option value="ta">Taille/Age</option>
       <option value="td">Taille/Date</option>
     </select>
+    <button @click="this.toggleSideBar()">Config</button>
   </header>
 </template>
 
@@ -13,6 +14,15 @@ export default {
   name: "Header",
   props: ["modelValue"],
   emits: ["update:modelValue"],
+  methods: {
+    toggleSideBar: function () {
+      const style = document.getElementById("side").style;
+      if (style.display === "none")
+        style.display = "block";
+      else
+        style.display = "none";
+    }
+  }
 }
 </script>
 
