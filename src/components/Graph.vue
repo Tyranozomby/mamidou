@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <ScatterChart class="graph" v-if="type==='ta'" :chartData="dataAge" :options="optionsAge"/>
-    <ScatterChart class="graph" v-else-if="type==='td'" :chartData="dataDate" :options="optionsDate"/>
+  <div v-if="this.donnees != null && this.children != null">
+    <Scatter class="graph" v-if="type==='ta'" :chart-data="dataAge" :chart-options="optionsAge"/>
+    <Scatter class="graph" v-else-if="type==='td'" :chart-data="dataDate" :chart-options="optionsDate"/>
   </div>
 </template>
 
 <script>
-import {ScatterChart} from 'vue-chart-3';
+import {Scatter} from 'vue-chartjs';
 import 'chartjs-adapter-date-fns';
 
 import {Chart, registerables} from "chart.js";
@@ -18,12 +18,10 @@ Chart.register(...registerables);
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Graph',
-  components: {ScatterChart},
+  components: {Scatter},
   props: ["type", "donnees", "children"],
   computed: {
     dataAge: function () {
-      if (this.donnees == null)
-        return null
 
       let datasets = {datasets: []};
 
@@ -32,9 +30,9 @@ export default {
 
         let data = [];
 
-        if (this.donnees[nom]) {
-          const donnee = this.donnees[nom];
+        const donnee = this.donnees[nom];
 
+        if (donnee) {
           for (let i = 0; i < donnee.length; i++) {
 
             const dob = this.strToDate(child.date)
@@ -46,6 +44,7 @@ export default {
             data.push({x: Math.round(x) / 10 * Math.sign(num), y: donnee[i].value})
           }
         }
+
         datasets.datasets.push({
           showLine: true,
           label: nom,
@@ -60,18 +59,15 @@ export default {
       return datasets
     },
     dataDate: function () {
-      if (this.donnees == null)
-        return null
-
       let datasets = {datasets: []};
 
       for (let nom in this.children) {
         const child = this.children[nom];
 
         let data = [];
-        if (this.donnees[nom]) {
-          const donnee = this.donnees[nom];
+        const donnee = this.donnees[nom];
 
+        if (donnee) {
           for (let i = 0; i < donnee.length; i++) {
             const mesure = this.strToDate(donnee[i].date)
 
@@ -103,8 +99,6 @@ export default {
               boxWidth: 50,
               boxHeight: 20,
               sort: (a, b) => {
-                if (!this.children[a.text] || !this.children[b.text])
-                  return 0
                 const date1 = this.strToDate(this.children[a.text].date);
                 const date2 = this.strToDate(this.children[b.text].date);
 
@@ -169,7 +163,8 @@ export default {
             const values = this.donnees[child][point.index];
             this.$emit("pointClicked", {child: child, date: values.date, value: values.value, pos: point.index})
           }
-        }
+        },
+        maintainAspectRatio: false
       }
     },
     optionsDate: function () {
@@ -241,7 +236,8 @@ export default {
             const values = this.donnees[child][point.index];
             this.$emit("pointClicked", {child: child, date: values.date, value: values.value})
           }
-        }
+        },
+        maintainAspectRatio: false
       }
     }
   },
