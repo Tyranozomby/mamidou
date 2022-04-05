@@ -59,7 +59,15 @@ app.get('/api/data/:child', (req, res) => {
 // Modifier une donnée spécifique d'un enfant
 app.patch("/api/data/:child/:date", (req, res) => {
     const child = req.params.child;
-    const date = req.params.date.replaceAll("-", "/");
+    const date = req.params.date.replace(/-/g, "/");
+
+    if (!req.body.value)
+        req.body.value = 0
+    else if (!Number.isNaN(req.body.value))
+        req.body.value = Number(req.body.value)
+    else
+        req.body.value = 0
+
     const newVal = req.body.value;
 
     fs.readFile(DATA_FILE, 'utf8', function (err, data) {
@@ -70,13 +78,13 @@ app.patch("/api/data/:child/:date", (req, res) => {
                     json[child][i].value = newVal;
 
         json[child].sort(dataSort)
+
         const txt = JSON.stringify(json, null, 2);
         fs.writeFile(DATA_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
                 res.sendStatus(500);
             } else {
-                console.log("Résultat: " + txt);
                 res.send(txt);
             }
         })
@@ -100,7 +108,6 @@ app.patch("/api/children/:child", (req, res) => {
                 console.log(err);
                 res.sendStatus(500);
             } else {
-                console.log("Résultat: " + txt);
                 res.send(txt);
             }
         })
@@ -116,7 +123,7 @@ app.put("/api/children/:child", (req, res) => {
     if (!req.body.date)
         req.body.date = "01/01/2022"
     if (!req.body.color)
-        req.body.color = "#FFFFFF"
+        req.body.color = "#123456"
 
     const val = {"date": req.body.date, "color": req.body.color};
 
@@ -131,7 +138,6 @@ app.put("/api/children/:child", (req, res) => {
                 console.log(err);
                 res.sendStatus(500);
             } else {
-                console.log("Résultat: " + txt);
                 res.send(txt);
             }
         })
@@ -144,10 +150,13 @@ app.put("/api/data/:child", (req, res) => {
 
     if (!req.body.date)
         req.body.date = "01/01/2022"
+
     if (!req.body.value)
         req.body.value = 0
-    else if (!Number.isInteger(req.body.value))
+    else if (!Number.isNaN(req.body.value))
         req.body.value = Number(req.body.value)
+    else
+        req.body.value = 0
 
 
     const val = {"date": req.body.date, "value": req.body.value};
@@ -196,13 +205,15 @@ app.delete("/api/data/:child/:position", (req, res) => {
         if (json[child])
             json[child].splice(position, 1);
 
+        if (json[child].length === 0)
+            delete json[child]
+
         const txt = JSON.stringify(json, null, 2);
         fs.writeFile(DATA_FILE, txt, (err) => {
             if (err) {
                 console.log(err);
                 res.sendStatus(500);
             } else {
-                console.log("Résultat: " + txt);
                 res.send(txt);
             }
         })
@@ -230,7 +241,6 @@ function deleteData(req, res, path) {
                 console.log(err);
                 res.sendStatus(500);
             } else {
-                console.log("Résultat: " + txt);
                 res.send(txt);
             }
         })

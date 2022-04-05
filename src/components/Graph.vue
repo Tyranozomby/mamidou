@@ -53,7 +53,7 @@ export default {
           backgroundColor: child.color,
           borderColor: child.color,
           pointRadius: 8,
-          pointHoverRadius: 9
+          pointHoverRadius: 9,
         });
 
       }
@@ -69,12 +69,14 @@ export default {
         const child = this.children[nom];
 
         let data = [];
-        const donnee = this.donnees[nom];
+        if (this.donnees[nom]) {
+          const donnee = this.donnees[nom];
 
-        for (let i = 0; i < donnee.length; i++) {
-          const mesure = this.strToDate(donnee[i].date)
+          for (let i = 0; i < donnee.length; i++) {
+            const mesure = this.strToDate(donnee[i].date)
 
-          data.push({x: mesure, y: donnee[i].value})
+            data.push({x: mesure, y: donnee[i].value})
+          }
         }
 
         datasets.datasets.push({
@@ -84,7 +86,7 @@ export default {
           backgroundColor: child.color,
           borderColor: child.color,
           pointRadius: 8,
-          pointHoverRadius: 9
+          pointHoverRadius: 9,
         });
       }
       return datasets
@@ -101,6 +103,8 @@ export default {
               boxWidth: 50,
               boxHeight: 20,
               sort: (a, b) => {
+                if (!this.children[a.text] || !this.children[b.text])
+                  return 0
                 const date1 = this.strToDate(this.children[a.text].date);
                 const date2 = this.strToDate(this.children[b.text].date);
 
@@ -130,8 +134,14 @@ export default {
                 const data = context[0].dataset.data;
                 for (let i = 0; i < data.length; i++) {
                   if (data[i] === context[0].raw) {
-                    const date = this.donnees[context[0].dataset.label][i].date;
-                    return date.replaceAll('/', '-')
+                    const date = this.strToDate(this.donnees[context[0].dataset.label][i].date);
+
+                    const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+                    const day = date.getDate();
+                    const month = months[date.getMonth()];
+                    const year = date.getFullYear();
+
+                    return day + " " + month + " " + year
                   }
                 }
                 return "Error"
@@ -144,11 +154,20 @@ export default {
             bodyFont: {
               size: 15
             },
+            footerAlign: 'center',
             footerFont: {
               weight: 'normal',
-              style: 'italic',
+              family: "'system-ui', serif",
               size: 15
             }
+          }
+        },
+        onClick: (e, a) => {
+          if (a.length !== 0) {
+            const point = a[0];
+            const child = Object.keys(this.children)[point.datasetIndex];
+            const values = this.donnees[child][point.index];
+            this.$emit("pointClicked", {child: child, date: values.date, value: values.value, pos: point.index})
           }
         }
       }
@@ -188,9 +207,9 @@ export default {
                 return context[0].dataset.label;
               },
               label: function (context) {
-                const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
                 const date = new Date(context.raw.x);
 
+                const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
                 const day = date.getDate();
                 const month = months[date.getMonth()];
                 const year = date.getFullYear();
@@ -204,11 +223,6 @@ export default {
             },
             bodyFont: {
               size: 15
-            },
-            footerFont: {
-              weight: 'normal',
-              style: 'italic',
-              size: 15
             }
           }
         },
@@ -218,6 +232,14 @@ export default {
             time: {
               unit: "year"
             }
+          }
+        },
+        onClick: (e, a) => {
+          if (a.length !== 0) {
+            const point = a[0];
+            const child = Object.keys(this.children)[point.datasetIndex];
+            const values = this.donnees[child][point.index];
+            this.$emit("pointClicked", {child: child, date: values.date, value: values.value})
           }
         }
       }

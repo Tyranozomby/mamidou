@@ -2,8 +2,8 @@
   <div>
     <Header id="header" v-model="type"/>
     <div id="content">
-      <Graph id="graph" :type="type" :children="children" :donnees="donnees"/>
-      <SidePage id="side" :children="children" :donnees="donnees" @updateChildren="updateChildren"
+      <Graph id="graph" :type="type" :children="children" :donnees="donnees" @pointClicked="pointClicked"/>
+      <SidePage id="side" :children="children" :donnees="donnees" :point="point" @updateChildren="updateChildren"
                 @updateData="updateData"/>
     </div>
   </div>
@@ -26,7 +26,8 @@ export default {
     return {
       type: "ta",
       children: null,
-      donnees: null
+      donnees: null,
+      point: {}
     }
   },
   methods: {
@@ -44,6 +45,9 @@ export default {
       }
       this.donnees = data;
     },
+    pointClicked: function (data) {
+      this.point = data
+    }
   },
   created() {
     this.updateChildren();
