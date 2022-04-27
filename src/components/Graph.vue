@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.donnees != null && this.children != null">
+  <div id="graphContainer" v-if="this.data != null">
     <Scatter class="graph" v-if="type==='ta'" :chart-data="dataAge" :chart-options="optionsAge"/>
     <Scatter class="graph" v-else-if="type==='td'" :chart-data="dataDate" :chart-options="optionsDate"/>
   </div>
@@ -19,7 +19,13 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Graph',
   components: {Scatter},
-  props: ["type", "donnees", "children"],
+  props: ["type"],
+  data: function () {
+    return {
+      children: this.$store.getters.children,
+      data: this.$store.getters.data
+    }
+  },
   computed: {
     dataAge: function () {
 
@@ -30,7 +36,7 @@ export default {
 
         let data = [];
 
-        const donnee = this.donnees[nom];
+        const donnee = this.data[nom];
 
         if (donnee) {
           for (let i = 0; i < donnee.length; i++) {
@@ -65,7 +71,7 @@ export default {
         const child = this.children[nom];
 
         let data = [];
-        const donnee = this.donnees[nom];
+        const donnee = this.data[nom];
 
         if (donnee) {
           for (let i = 0; i < donnee.length; i++) {
@@ -107,13 +113,12 @@ export default {
                 else
                   return -1
               }
-            }
-          },
-          title: {
-            display: true,
-            text: 'Graphique Taille par Age',
-            font: {
-              size: "22px"
+            },
+            onHover: (e) => {
+              e.native.target.style.cursor = "pointer"
+            },
+            onLeave: (e) => {
+              e.native.target.style.cursor = "default"
             }
           },
           tooltip: {
@@ -128,14 +133,9 @@ export default {
                 const data = context[0].dataset.data;
                 for (let i = 0; i < data.length; i++) {
                   if (data[i] === context[0].raw) {
-                    const date = this.strToDate(this.donnees[context[0].dataset.label][i].date);
+                    const date = this.strToDate(this.data[context[0].dataset.label][i].date);
 
-                    const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-                    const day = date.getDate();
-                    const month = months[date.getMonth()];
-                    const year = date.getFullYear();
-
-                    return day + " " + month + " " + year
+                    return this.dateToStr(date)
                   }
                 }
                 return "Error"
@@ -160,7 +160,7 @@ export default {
           if (a.length !== 0) {
             const point = a[0];
             const child = Object.keys(this.children)[point.datasetIndex];
-            const values = this.donnees[child][point.index];
+            const values = this.data[child][point.index];
             this.$emit("pointClicked", {child: child, date: values.date, value: values.value, pos: point.index})
           }
         },
@@ -187,13 +187,12 @@ export default {
                 else
                   return -1
               }
-            }
-          },
-          title: {
-            display: true,
-            text: 'Graphique Taille par Date',
-            font: {
-              size: "22px"
+            },
+            onHover: (e) => {
+              e.native.target.style.cursor = "pointer"
+            },
+            onLeave: (e) => {
+              e.native.target.style.cursor = "default"
             }
           },
           tooltip: {
@@ -201,15 +200,9 @@ export default {
               title: function (context) {
                 return context[0].dataset.label;
               },
-              label: function (context) {
+              label: (context) => {
                 const date = new Date(context.raw.x);
-
-                const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-                const day = date.getDate();
-                const month = months[date.getMonth()];
-                const year = date.getFullYear();
-
-                return day + " " + month + " " + year + " - " + context.raw.y + "cm";
+                return this.dateToStr(date) + " - " + context.raw.y + "cm";
               }
             },
             titleAlign: 'center',
@@ -233,7 +226,7 @@ export default {
           if (a.length !== 0) {
             const point = a[0];
             const child = Object.keys(this.children)[point.datasetIndex];
-            const values = this.donnees[child][point.index];
+            const values = this.data[child][point.index];
             this.$emit("pointClicked", {child: child, date: values.date, value: values.value})
           }
         },
@@ -244,14 +237,26 @@ export default {
   methods: {
     strToDate: function (str) {
       return ParseDate(str, 'dd/MM/yyyy', new Date(), {locale: fr})
+    },
+    dateToStr: function (date) {
+      const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+
+      return day + " " + month + " " + year
     }
   }
-
 };
 </script>
 
 <style scoped>
 .graph {
-  height: 95vh;
+  height: 40rem !important;
+  width: 85rem !important;
+  padding: 5px;
+  background-color: var(--fluorescent-blue);
+  border: var(--maximum-blue) 5px solid;
+  border-radius: 10px;
 }
 </style>

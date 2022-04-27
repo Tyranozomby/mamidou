@@ -1,46 +1,71 @@
 <template>
-  <div>
-    <Header id="header" v-model="type"/>
-    <div id="content">
-      <Graph id="graph" :type="type" :children="children" :donnees="donnees" @pointClicked="pointClicked"/>
-      <SidePage id="side" :children="children" :donnees="donnees" :point="point" @updateChildren="updateChildren"
-                @updateData="updateData"/>
+  <Header id="header"/>
+  <div id="content">
+    <div>
+      <h3>{{ $t("main.mode") }}</h3>
+      <div id="graphMode">
+        <h3>{{ $t("main.age") }}</h3>
+        <div id="toggleButton">
+          <input v-model="toggle" type="checkbox" id="toggle">
+          <label for="toggle" class="button"></label>
+        </div>
+        <h3>{{ $t("main.date") }}</h3>
+      </div>
     </div>
+    <Graph id="graph" v-if="$store.getters.children != null && $store.getters.data != null" :type="type"
+           @pointClicked="pointClicked"/>
+    <!--    <SidePage id="side" :point="point" @updateChildren="updateChildren"-->
+    <!--              @updateData="updateData"/>-->
   </div>
+  <Help id="help"/>
+  <Birthday id="birthday"/>
+  <Config id="config"/>
 </template>
 
 <script>
+import RequestsServices from "@/services/requestsServices";
+
 import Header from "@/components/Header";
 import Graph from "@/components/Graph";
-import SidePage from "@/components/SidePage";
-import axios from "axios";
+
+import Config from "@/components/popups/Config";
+import Help from "@/components/popups/Help";
+import Birthday from "@/components/popups/Birthday";
 
 export default {
   name: 'App',
   components: {
-    SidePage,
+    Header,
     Graph,
-    Header
+    Config,
+    Help,
+    Birthday
   },
   data() {
     return {
-      type: "ta",
-      children: null,
-      donnees: null,
+      toggle: false,
       point: {}
+    }
+  },
+  computed: {
+    type() {
+      if (this.toggle)
+        return "td"
+      else
+        return "ta"
     }
   },
   methods: {
     updateChildren: async function (data) {
       if (!data) {
-        const response = await axios.get("//localhost:3000/api/children");
+        const response = await RequestsServices.getChildren()
         data = response.data;
       }
       this.children = data;
     },
     updateData: async function (data) {
       if (!data) {
-        const response = await axios.get("//localhost:3000/api/data");
+        const response = await RequestsServices.getData()
         data = response.data;
       }
       this.donnees = data;
@@ -49,34 +74,191 @@ export default {
       this.point = data
     }
   },
-  created() {
-    this.updateChildren();
-    this.updateData();
+  async beforeMount() {
+    await this.$store.dispatch("updateChildren")
+    await this.$store.dispatch("updateData")
+
+    if (localStorage.getItem('lang')) {
+      this.$root.$i18n.locale = localStorage.getItem('lang')
+    } else {
+      const lang = navigator.language.substring(0, 2)
+      if (lang === "en" || lang === "fr") {
+        this.$root.$i18n.locale = lang
+      } else {
+        this.$root.$i18n.locale = "en"
+      }
+    }
   }
 }
 </script>
 
 <style>
+@font-face {
+  font-family: 'Lovelo';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Lovelo'), url(https://fonts.cdnfonts.com/s/18519/Lovelo-Black.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v28/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  --rich-black: #042A2B;
+  --maximum-blue: #5EB1BF;
+  --fluorescent-blue: #54F2F2;
+  --white: #FCFCFC;
+  --red-salsa: #F05D5E
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: var(--rich-black);
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Lovelo', sans-serif;
+  font-size: 70px;
+}
+
+h2 {
+  margin-top: 1rem;
+  font-family: 'Lovelo', sans-serif;
+  font-size: 50px;
+  color: var(--fluorescent-blue);
+  text-shadow: -1px -1px 0 var(--rich-black),
+  0 -1px 0 var(--rich-black),
+  1px -1px 0 var(--rich-black),
+  1px 0 0 var(--rich-black),
+  1px 1px 0 var(--rich-black),
+  0 1px 0 var(--rich-black),
+  -1px 1px 0 var(--rich-black),
+  -1px 0 0 var(--rich-black);
+
+}
+
+h3 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 34px;
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 30px;
+  color: var(--rich-black);
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 #header {
-  height: 5vh
+  height: 6rem
 }
 
 #content {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 90%;
+  flex-direction: column !important;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
 }
+
 
 #graph {
-  flex-grow: 2;
+  display: flex;
+  justify-content: center;
 }
 
-#side {
-  padding: 1rem;
-  width: 20%;
-  display: block;
-  background-color: darkcyan;
+#graphMode {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
+#toggleButton {
+  height: 2rem;
+  margin: 0 1rem;
+}
+
+#toggle {
+  display: none;
+}
+
+.button {
+  display: inline-block;
+  width: 90px;
+  height: 35px;
+  background-color: var(--fluorescent-blue);
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 0 15px -5px var(--rich-black);
+}
+
+.button::after {
+  content: " ";
+  width: 40px;
+  height: 40px;
+  background-color: var(--red-salsa);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .25);
+  position: absolute;
+  top: -5px;
+  left: 0;
+  display: grid;
+  place-content: center;
+  transition: background-color .5s, transform .5s ease-in;
+}
+
+#toggle:checked + .button::after {
+  background-color: var(--maximum-blue);
+  transform: translateX(50px);
+}
+
+#help, #birthday, #config {
+  display: none;
+}
+
+.popup {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 42, 43, 0.8);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  width: 70%;
+  height: 70%;
+  background-color: var(--fluorescent-blue);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+}
 </style>

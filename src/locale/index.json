@@ -1,0 +1,42 @@
+{
+  "fr": {
+    "main": {
+      "mode": "Taille par :",
+      "age": "Age",
+      "date": "Date"
+    },
+    "header": {
+      "title": "Mamidou"
+    },
+    "help": {
+      "title": "Comment ça marche ?"
+    },
+    "birthday": {
+      "title": "Prochain anniversaire",
+      "message": "Le prochain anniversaire est celui de <b>{name}</b> le <b>{date}</b>.<br/>\n<b>{name}</b> aura donc <b>{age} ans</b> dans <b>{days}</b> jours."
+    },
+    "config": {
+      "title": "Éditer les données"
+    }
+  },
+  "en": {
+    "main": {
+      "mode": "Size by:",
+      "age": "Age",
+      "date": "Time"
+    },
+    "header": {
+      "title": "Mamidew"
+    },
+    "help": {
+      "title": "how does it marche?"
+    },
+    "birthday": {
+      "title": "Next anniversaire",
+      "message": "The next anniversaire is celui de <b>{name}</b> the <b>{date}</b>.<br/>\n<b>{name}</b> will be <b>{age} ans vieux</b> in <b>{days}</b> jours."
+    },
+    "config": {
+      "title": "Éditer the data"
+    }
+  }
+}

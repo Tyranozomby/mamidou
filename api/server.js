@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const fs = require("fs");
+const jwt = require("jsonwebtoken")
+const config = require("./configs")
 
 app.use(express.json());
 
@@ -14,6 +16,21 @@ if (cors.NODE_ENV !== 'production') {
 const CHILDREN_FILE = __dirname + "/../data/children.json";
 const DATA_FILE = __dirname + "/../data/data.json";
 
+// ---------- LOGIN ----------
+app.post("/api/login", (req, res) => {
+    if (!req.body.password)
+        return res.status(400)
+
+    const password = req.body.password
+
+    if (password === config.password) {
+        const token = jwt.sign({}, config.jwt.secret, {expiresIn: config.jwt.expiration}, null)
+        return res.json(token)
+    } else {
+        return res.status(401)
+    }
+})
+
 // ---------- GET ----------
 // Tous les enfants
 app.get('/api/children', (req, res) => {
@@ -26,6 +43,7 @@ app.get('/api/children', (req, res) => {
 // Un enfant précis
 app.get('/api/children/:child', (req, res) => {
     const child = req.params.child;
+
     fs.readFile(CHILDREN_FILE, 'utf8', function (err, data) {
         const json = JSON.parse(data);
 
@@ -58,6 +76,9 @@ app.get('/api/data/:child', (req, res) => {
 // ---------- PATCH ----------
 // Modifier une donnée spécifique d'un enfant
 app.patch("/api/data/:child/:date", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     const child = req.params.child;
     const date = req.params.date.replace(/-/g, "/");
 
@@ -93,6 +114,9 @@ app.patch("/api/data/:child/:date", (req, res) => {
 
 // Modifier la couleur d'un enfant
 app.patch("/api/children/:child", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     const child = req.params.child;
     const newColor = req.body.color;
 
@@ -118,6 +142,9 @@ app.patch("/api/children/:child", (req, res) => {
 // ---------- PUT ----------
 // Ajouter un enfant
 app.put("/api/children/:child", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     const child = req.params.child;
 
     if (!req.body.date)
@@ -146,6 +173,9 @@ app.put("/api/children/:child", (req, res) => {
 
 // Ajouter une donnée
 app.put("/api/data/:child", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     const child = req.params.child;
 
     if (!req.body.date)
@@ -186,16 +216,25 @@ app.put("/api/data/:child", (req, res) => {
 // ---------- DELETE ----------
 // Éradiquer un enfant
 app.delete("/api/children/:child", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     deleteData(req, res, CHILDREN_FILE)
 });
 
 // Supprimer les données d'un enfant
 app.delete("/api/data/:child", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     deleteData(req, res, DATA_FILE)
 });
 
 // Supprimer une donnée d'un enfant
 app.delete("/api/data/:child/:position", (req, res) => {
+    if (!validToken(req.headers["x-access-token"]))
+        return res.status(403)
+
     const child = req.params.child;
     const position = req.params.position;
 
@@ -255,4 +294,9 @@ function dataSort(a, b) {
         return -1
     else
         return 1
+}
+
+function validToken(token) {
+    const decode = jwt.decode(token, null)
+    return decode !== undefined
 }

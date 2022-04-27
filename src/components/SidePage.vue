@@ -65,10 +65,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import ParseDate from "date-fns/parse";
 import {fr} from "date-fns/locale";
-/* eslint-disable */
+import RequestsService from "/src/services/requestsServices"
 
 export default {
   name: "SidePage",
@@ -142,7 +141,7 @@ export default {
           date = e.target[1].value.split("-").reverse().join("/")
           value = e.target[2].value
 
-          response = await axios.put("//localhost:3000/api/data/" + child, {date: date, value: value})
+          response = RequestsService.addData(child, date, value)
           this.$emit('updateData', response.data)
           break;
 
@@ -151,7 +150,7 @@ export default {
           color = e.target[1].value
           date = e.target[2].value.split("-").reverse().join("/")
 
-          response = await axios.put("//localhost:3000/api/children/" + child, {date: date, color: color})
+          response = await RequestsService.addChild(child, date, color)
           this.$emit('updateChildren', response.data)
           break;
 
@@ -160,17 +159,16 @@ export default {
           date = e.target[1].value.split("-").reverse().join("-")
           value = e.target[2].value
 
-          response = await axios.patch("//localhost:3000/api/data/" + child + "/" + date, {value: value})
+          response = await RequestsService.editData(child, date, value)
           this.$emit('updateData', response.data)
           break;
 
         case "suppr-val":
           if (confirm("Es-tu sûr(e) de vouloir supprimer ces données ?")) {
             child = e.target[0].value
-            value = e.target[2].value
             const pos = e.target[3].value
 
-            response = await axios.delete("//localhost:3000/api/data/" + child + "/" + pos)
+            response = await RequestsService.deleteData(child, pos)
             this.$emit('updateData', response.data)
           }
           break;
@@ -179,10 +177,10 @@ export default {
           if (confirm("Es-tu sûr(e) de vouloir supprimer cet enfant ?")) {
             child = e.target[0].value
 
-            response = await axios.delete("//localhost:3000/api/data/" + child)
+            response = await RequestsService.deleteAllData(child)
             this.$emit('updateData', response.data)
 
-            response = await axios.delete("//localhost:3000/api/children/" + child)
+            response = await RequestsService.deleteChild(child)
             this.$emit('updateChildren', response.data)
           }
           break;
