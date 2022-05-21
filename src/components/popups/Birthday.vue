@@ -8,7 +8,7 @@
       <div class="content">
         <p v-if="this.next"
            v-html="$t('birthday.message', {name: next.name,date: next.date,age: next.age,days: next.days})"></p>
-        <img id="cake" alt="cake" src="cake.png">
+        <img id="cake" alt="cake" src="../../../public/cake.png">
       </div>
     </div>
   </div>
@@ -45,7 +45,10 @@ export default {
       for (let name in children) {
         const child = children[name];
         const split = child.date.split("/")
-        const birthday = new Date(today.getFullYear() + (today.getMonth() < split[1] - 1 ? 0 : 1), split[1] - 1, split[0])
+        const birthday = new Date(today.getFullYear(), split[1] - 1, split[0])
+
+        if (birthday < today)
+          birthday.setFullYear(birthday.getFullYear() + 1)
 
         const date = this.dateToStr(birthday)
         const days = Math.floor((birthday - today) / 1000 / 60 / 60 / 24) + 1
@@ -74,7 +77,19 @@ export default {
 }
 
 #cake {
-  width: 30%;
+  height: 60%;
   max-height: 20rem;
+}
+
+@media only screen and (min-width: 321px) and (max-width: 799px) {
+  #cake {
+    max-height: 10rem;
+  }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1200px) {
+  #cake {
+    max-height: 15rem;
+  }
 }
 </style>

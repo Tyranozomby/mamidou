@@ -5,6 +5,9 @@ export default {
     mutations: {
         login(state, payload) {
             state.token = payload.token
+        },
+        logout(state) {
+            state.token = null
         }
     },
     getters: {
@@ -13,6 +16,9 @@ export default {
                 return {headers: {'x-access-token': state.token}};
             else
                 return {};
+        },
+        isConnected(state) {
+            return !!state.token
         }
     }
 }

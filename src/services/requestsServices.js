@@ -1,16 +1,26 @@
 import axios from "axios";
 import store from "@/store"
 
-const URL = "//localhost:3000/api/"
+const URL = process.env.VUE_APP_API_URL
+if (!URL)
+    console.error("Missing API_URL environnemental variable")
 
 class RequestsService {
 
     async login(password) {
-        return await axios.post(URL + "login", {password})
+        try {
+            return await axios.post(URL + "login", {password})
+        } catch (e) {
+            return e.response
+        }
     }
 
     async getChildren() {
-        return await axios.get(URL + 'children')
+        try {
+            return await axios.get(URL + 'children')
+        } catch (e) {
+            return e.response
+        }
     }
 
     async getData() {
@@ -18,27 +28,59 @@ class RequestsService {
     }
 
     async addData(child, date, value) {
-        return await axios.put(URL + "data/" + child, {date, value}, store.getters.authHeader)
+        try {
+            return await axios.put(URL + "data/" + child, {date, value}, store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
     }
 
     async addChild(child, date, color) {
-        return await axios.put(URL + "children/" + child, {date, color}, store.getters.authHeader)
+        try {
+            return await axios.put(URL + "children/" + child, {date, color}, store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
     }
 
     async editData(child, date, value) {
-        return await axios.patch(URL + "data/" + child + "/" + date, {value}, store.getters.authHeader)
+        try {
+            return await axios.patch(URL + "data/" + child + "/" + date, {value}, store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
     }
 
     async deleteData(child, pos) {
-        return await axios.delete(URL + "data/" + child + "/" + pos, store.getters.authHeader)
+        try {
+            return await axios.delete(URL + "data/" + child + "/" + pos, store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
     }
 
     async deleteAllData(child) {
-        return await axios.delete(URL + "data/" + child, store.getters.authHeader)
+        try {
+            return await axios.delete(URL + "data/" + child, store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
     }
 
     async deleteChild(child) {
-        return await axios.delete(URL + "children/" + child, store.getters.authHeader)
+        try {
+            return await axios.delete(URL + "children/" + child, store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
+    }
+
+    async refreshToken() {
+        try {
+            return await axios.get(URL + "refreshToken", store.getters.authHeader)
+        } catch (e) {
+            return e.response
+        }
     }
 }
 

@@ -14,12 +14,10 @@
     </div>
     <Graph id="graph" v-if="$store.getters.children != null && $store.getters.data != null" :type="type"
            @pointClicked="pointClicked"/>
-    <!--    <SidePage id="side" :point="point" @updateChildren="updateChildren"-->
-    <!--              @updateData="updateData"/>-->
   </div>
+  <Config id="config" style="display: flex"/>
   <Help id="help"/>
   <Birthday id="birthday"/>
-  <Config id="config"/>
 </template>
 
 <script>
@@ -88,6 +86,16 @@ export default {
         this.$root.$i18n.locale = "en"
       }
     }
+  },
+  async mounted() {
+    if (this.$store.getters.isConnected) {
+      const tok = await RequestsServices.refreshToken()
+
+      if (tok.status === 200)
+        this.$store.commit("login", {token: tok.data})
+      else
+        this.$store.commit("logout")
+    }
   }
 }
 </script>
@@ -121,7 +129,15 @@ html, body {
   --maximum-blue: #5EB1BF;
   --fluorescent-blue: #54F2F2;
   --white: #FCFCFC;
-  --red-salsa: #F05D5E
+  --red-salsa: #F05D5E;
+
+  --iconBallSize: 4.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  :root {
+    --iconBallSize: 3.5rem;
+  }
 }
 
 h1, h2, h3 {
@@ -133,6 +149,12 @@ h1, h2, h3 {
 h1 {
   font-family: 'Lovelo', sans-serif;
   font-size: 70px;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 50px;
+  }
 }
 
 h2 {
@@ -164,6 +186,16 @@ p {
   color: var(--rich-black);
 }
 
+input, button {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 25px;
+  color: var(--rich-black);
+  border-radius: 20px;
+  outline: none;
+  border: none;
+}
+
 #app {
   width: 100%;
   height: 100%;
@@ -181,6 +213,7 @@ p {
   flex-grow: 1;
   align-items: center;
   justify-content: center;
+  margin: 1rem;
 }
 
 
@@ -254,11 +287,12 @@ p {
 
 .container {
   position: relative;
-  width: 70%;
-  height: 70%;
+  width: 60rem;
+  height: 65%;
   background-color: var(--fluorescent-blue);
   border-radius: 25px;
   display: flex;
   flex-direction: column;
+  padding: 1.5rem;
 }
 </style>

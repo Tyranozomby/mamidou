@@ -1,5 +1,5 @@
 <template>
-  <div id="graphContainer" v-if="this.data != null">
+  <div v-if="this.data != null">
     <Scatter class="graph" v-if="type==='ta'" :chart-data="dataAge" :chart-options="optionsAge"/>
     <Scatter class="graph" v-else-if="type==='td'" :chart-data="dataDate" :chart-options="optionsDate"/>
   </div>
@@ -259,4 +259,34 @@ export default {
   border: var(--maximum-blue) 5px solid;
   border-radius: 10px;
 }
+
+@media screen and (min-width: 800px) and (max-width: 1200px) {
+  .graph {
+    height: 30rem !important;
+    width: 60rem !important;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 799px) {
+  .graph {
+    height: 30rem !important;
+    width: 45rem !important;
+  }
+}
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+  .graph {
+    height: 30rem !important;
+    width: 25rem !important;
+  }
+}
+
+@media screen and (max-width: 399px) {
+  .graph {
+    height: 25rem !important;
+    width: 20rem !important;
+  }
+}
+
+
 </style>
