@@ -7,7 +7,7 @@
       </div>
       <div class="content">
         <p v-if="this.next"
-           v-html="$t('birthday.message', {name: next.name,date: next.date,age: next.age,days: next.days})"></p>
+           v-html="this.next.days === 0 ? $t('birthday.messageToday', {name: next.name, age: next.age}) : $t('birthday.message', {name: next.name, date: next.date, age: next.age, days: next.days})"></p>
         <img id="cake" alt="cake" src="../../../public/cake.png">
       </div>
     </div>
@@ -38,7 +38,8 @@ export default {
   computed: {
     next() {
       const children = this.$store.getters.children;
-      const today = new Date();
+      const today = new Date()
+      today.setHours(0, 0, 0, 0);
 
       let next = undefined;
 
@@ -51,11 +52,15 @@ export default {
           birthday.setFullYear(birthday.getFullYear() + 1)
 
         const date = this.dateToStr(birthday)
-        const days = Math.floor((birthday - today) / 1000 / 60 / 60 / 24) + 1
+        const days = Math.floor((birthday - today) / 1000 / 60 / 60 / 24)
         const age = birthday.getFullYear() - split[2]
 
         if (!next || next.days > days) {
           next = {name, date, days, age}
+        }
+
+        if (birthday.getTime() === today.getTime()) {
+          break
         }
       }
       return next
@@ -79,6 +84,7 @@ export default {
 #cake {
   height: 60%;
   max-height: 20rem;
+  aspect-ratio: 1;
 }
 
 @media only screen and (min-width: 321px) and (max-width: 799px) {

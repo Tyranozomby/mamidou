@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       languages: [
-        {flag: "gb", lang: "en", title: "English"},
+        {flag: "us", lang: "en", title: "English"},
         {flag: "fr", lang: "fr", title: "Français"}
       ]
     }

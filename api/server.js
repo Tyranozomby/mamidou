@@ -35,7 +35,6 @@ app.delete("/api/children/:child", children.deleteChild);
 // ---------- DATA ----------
 // Toutes les données
 app.get('/api/data', data.getAll)
-
 // Des données précises
 app.get('/api/data/:child', data.getData)
 // Ajouter une donnée

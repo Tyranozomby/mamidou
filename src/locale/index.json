@@ -1,9 +1,25 @@
 {
   "fr": {
-    "main": {
-      "mode": "Taille par :",
+    "basics": {
+      "name": "Prénom",
+      "color": "Couleur",
+      "birthday": "Date de naissance",
+      "date": "Date",
+      "height": "Taille",
       "age": "Age",
-      "date": "Date"
+      "send": "Envoyer",
+      "child": "Enfant",
+      "before": "avant"
+    },
+    "placeholders": {
+      "name": "Ex: Thomas",
+      "color": "Couleur représentant l'enfant",
+      "height": "Taille en cm",
+      "child": "Choisissez un enfant",
+      "choose": "Choisissez la donnée"
+    },
+    "main": {
+      "mode": "Taille par :"
     },
     "header": {
       "title": "Mamidou"
@@ -13,7 +29,8 @@
     },
     "birthday": {
       "title": "Prochain anniversaire",
-      "message": "Le prochain anniversaire est celui de <b>{name}</b> le <b>{date}</b>.<br/><b>{name}</b> aura donc <b>{age} ans</b> dans <b>{days}</b> jours."
+      "message": "Le prochain anniversaire est celui de <b>{name}</b> le <b>{date}</b>.<br/><b>{name}</b> aura donc <b>{age} ans</b> dans <b>{days}</b> jours.",
+      "messageToday": "C'est l'anniversaire de <b>{name}</b> aujourd'hui !<br/><b>{name}</b> a maintenant <b>{age} ans</b>"
     },
     "config": {
       "title": "Éditer les données",
@@ -25,14 +42,31 @@
       "add": "Ajouter",
       "delete": "Supprimer",
       "child": "Enfant",
-      "value": "Valeur"
+      "value": "Valeur",
+      "wrong_password": "Mot de passe invalide"
     }
   },
   "en": {
+    "basics": {
+      "name": "Name",
+      "color": "Color",
+      "birthday": "Day of the naissance",
+      "date": "Date",
+      "height": "Tallness",
+      "age": "Oldness",
+      "send": "Send",
+      "child": "Child",
+      "before": "before"
+    },
+    "placeholders": {
+      "name": "e.g. Thomas",
+      "color": "Best couleur for the gosse",
+      "height": "Height in vertical burgers",
+      "child": "Select a gosse",
+      "choose": "Choose the donnée"
+    },
     "main": {
-      "mode": "Size by:",
-      "age": "Age",
-      "date": "Time"
+      "mode": "Size by:"
     },
     "header": {
       "title": "Mamidew"
@@ -42,7 +76,8 @@
     },
     "birthday": {
       "title": "Next anniversaire",
-      "message": "The next anniversaire is celui de <b>{name}</b> the <b>{date}</b>.<br/><b>{name}</b> will be <b>{age} ans vieux</b> in <b>{days}</b> jours."
+      "message": "The next anniversaire is celui de <b>{name}</b> the <b>{date}</b>.<br/><b>{name}</b> will be <b>{age} ans vieux</b> in <b>{days}</b> jours.",
+      "messageToday": "It is the anniversaire of <b>{name}</b> today!<br/><b>{name}</b> is now <b>{age} ans vieux</b>"
     },
     "config": {
       "title": "Éditer the data",
@@ -54,7 +89,8 @@
       "add": "Add",
       "delete": "Delete",
       "child": "Child",
-      "value": "Value"
+      "value": "Value",
+      "wrong_password": "Invalid mot de passe"
     }
   }
 }

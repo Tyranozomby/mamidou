@@ -1,0 +1,82 @@
+#left, #right {
+    padding: 0 3rem;
+    height: 100%;
+    width: 100%;
+}
+
+#left {
+    border-right: var(--rich-black) 1px solid;
+}
+
+label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: larger;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.configForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.configForm input, .configForm select {
+    margin: 0;
+    padding: 0 0 0 .2rem;
+    background-color: var(--white);
+    border: none;
+    outline: none;
+    height: 2.5rem;
+    width: 12rem;
+}
+
+.configForm input:not([type=color]), .configForm select {
+    border-radius: 10px;
+    border: 1px var(--rich-black) solid;
+}
+
+.configForm input[type=color] {
+    background-color: unset;
+}
+
+.configForm input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.configForm input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 10px;
+}
+
+.configForm input:disabled, .configForm select:disabled {
+    color: rgb(170, 170, 170);
+    opacity: 0.7;
+}
+
+button {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 80%;
+
+    font-family: 'Lovelo', sans-serif;
+    font-size: 25px;
+    color: var(--rich-black);
+    background-color: var(--maximum-blue);
+
+    padding: .2rem 1rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 20px;
+
+    transition: background-color .5s ease;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: var(--red-salsa);
+}

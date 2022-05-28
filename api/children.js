@@ -51,7 +51,10 @@ function addChild(req, res) {
     if (!validToken(req.headers["x-access-token"]))
         return res.status(403).end()
 
-    const child = req.params.child;
+    if (req.params.child.trim() === "")
+        return res.status(400).end()
+
+    const child = req.params.child.trim();
 
     if (!req.body.date)
         req.body.date = "01/01/2022"

@@ -4,18 +4,18 @@
     <div>
       <h3>{{ $t("main.mode") }}</h3>
       <div id="graphMode">
-        <h3>{{ $t("main.age") }}</h3>
+        <h3>{{ $t("basics.age") }}</h3>
         <div id="toggleButton">
           <input v-model="toggle" type="checkbox" id="toggle">
           <label for="toggle" class="button"></label>
         </div>
-        <h3>{{ $t("main.date") }}</h3>
+        <h3>{{ $t("basics.date") }}</h3>
       </div>
     </div>
     <Graph id="graph" v-if="$store.getters.children != null && $store.getters.data != null" :type="type"
            @pointClicked="pointClicked"/>
   </div>
-  <Config id="config" style="display: flex"/>
+  <Config id="config"/>
   <Help id="help"/>
   <Birthday id="birthday"/>
 </template>
@@ -73,6 +73,7 @@ export default {
     }
   },
   async beforeMount() {
+    // Load the data needed
     await this.$store.dispatch("updateChildren")
     await this.$store.dispatch("updateData")
 
@@ -170,7 +171,6 @@ h2 {
   0 1px 0 var(--rich-black),
   -1px 1px 0 var(--rich-black),
   -1px 0 0 var(--rich-black);
-
 }
 
 h3 {
@@ -184,16 +184,6 @@ p {
   font-weight: normal;
   font-size: 30px;
   color: var(--rich-black);
-}
-
-input, button {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: normal;
-  font-size: 25px;
-  color: var(--rich-black);
-  border-radius: 20px;
-  outline: none;
-  border: none;
 }
 
 #app {
@@ -294,5 +284,14 @@ input, button {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
+}
+
+span.error {
+  margin: 0;
+  padding: 0;
+  color: var(--red-salsa);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
 }
 </style>

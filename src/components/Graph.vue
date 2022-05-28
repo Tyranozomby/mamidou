@@ -20,15 +20,14 @@ export default {
   name: 'Graph',
   components: {Scatter},
   props: ["type"],
-  data: function () {
-    return {
-      children: this.$store.getters.children,
-      data: this.$store.getters.data
-    }
-  },
   computed: {
+    children() {
+      return this.$store.getters.children
+    },
+    data() {
+      return this.$store.getters.data
+    },
     dataAge: function () {
-
       let datasets = {datasets: []};
 
       for (let nom in this.children) {
