@@ -186,6 +186,10 @@ p {
   color: var(--rich-black);
 }
 
+u {
+  text-decoration: underline solid var(--rich-black) 2px;
+}
+
 #app {
   width: 100%;
   height: 100%;

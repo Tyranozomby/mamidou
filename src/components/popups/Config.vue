@@ -14,7 +14,7 @@
         </div>
         <div id="editing" class="center">
           <edit-config class="configMode" id="edit"/>
-          <add-config class="configMode" id="add"/>
+          <add-config class="configMode" id="add" style="display: flex"/>
           <delete-config class="configMode" id="delete"/>
         </div>
       </div>
@@ -47,9 +47,6 @@ export default {
       Array.from(document.getElementsByClassName("configMode")).forEach(m => m.style.display = "none")
       document.getElementById(mode).style.display = "flex"
     }
-  },
-  mounted() {
-    document.querySelector(".configMode#add").style.display = "flex"
   }
 }
 </script>

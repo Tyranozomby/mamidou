@@ -30,8 +30,8 @@ label {
     background-color: var(--white);
     border: none;
     outline: none;
-    height: 2.5rem;
-    width: 12rem;
+    height: 2.5rem !important;
+    width: 12rem !important;
 }
 
 .configForm input:not([type=color]), .configForm select {

@@ -66,6 +66,9 @@ export default {
         const color = e.target[1].value
         const date = e.target[2].value.split("-").reverse().join("/")
 
+        if (this.$store.getters.names.includes(child))
+          return
+
         const response = await RequestsService.addChild(child, date, color)
 
         if (response.status === 200)

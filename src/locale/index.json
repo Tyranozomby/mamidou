@@ -25,7 +25,10 @@
       "title": "Mamidou"
     },
     "help": {
-      "title": "Comment ça marche ?"
+      "title": "Comment ça marche ?",
+      "explication": "Ce site permet de tracer les courbes de nos tailles, plus précisément que sur un petit papier quadrillé",
+      "infos": "Tu peux voir le prochain anniversaire en <u>cliquant sur le cadeau</u> ou bien ajouter des données en <u>cliquant sur la clé anglaise</u>",
+      "msg": "Joyeux anniversaire Mamie.<br/>J'espère que ce site pourra t'être utile \uD83D\uDE0A"
     },
     "birthday": {
       "title": "Prochain anniversaire",
@@ -72,7 +75,10 @@
       "title": "Mamidew"
     },
     "help": {
-      "title": "How does it marche?"
+      "title": "How does it marche?",
+      "explication": "This website allows to trace courbes of our tallness, better than on a little papier quadrillé",
+      "infos": "You can see the prochain anniversaire by <u>clicking on the cadeau</u> and also ajouter des données by <u>clicking on the clé anglaise</u>",
+      "msg": "Happy jour d'anniversaire Mamie.<br/>Hope this website will be useful \uD83D\uDE0A"
     },
     "birthday": {
       "title": "Next anniversaire",
