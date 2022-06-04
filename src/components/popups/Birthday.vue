@@ -89,7 +89,7 @@ export default {
 
 @media only screen and (min-width: 321px) and (max-width: 799px) {
   #cake {
-    max-height: 10rem;
+    display: none;
   }
 }
 

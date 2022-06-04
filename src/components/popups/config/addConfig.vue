@@ -39,7 +39,7 @@
 
         <div class="inputGroup">
           <label for="addValueHeight">{{ $t("basics.height") }}</label>
-          <input id="addValueHeight" type="number" :placeholder="$t('placeholders.height')" min="1" step="1"
+          <input id="addValueHeight" type="number" :placeholder="$t('placeholders.height')" min="1" step=".1"
                  :disabled="selectedChild === ''" required>
         </div>
 

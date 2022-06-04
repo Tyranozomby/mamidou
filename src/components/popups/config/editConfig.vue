@@ -49,7 +49,7 @@
 
         <div class="inputGroup">
           <label for="editValueHeight">{{ $t("basics.height") }}</label>
-          <input id="editValueHeight" type="number" :placeholder="$t('placeholders.height')" min="1" step="1"
+          <input id="editValueHeight" type="number" :placeholder="$t('placeholders.height')" min="1" step=".1"
                  :disabled="selectedChildValue === ''" required>
         </div>
 

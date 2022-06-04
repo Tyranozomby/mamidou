@@ -149,19 +149,13 @@ h1, h2, h3 {
 
 h1 {
   font-family: 'Lovelo', sans-serif;
-  font-size: 70px;
-}
-
-@media screen and (max-width: 600px) {
-  h1 {
-    font-size: 50px;
-  }
+  font-size: 4.5rem;
 }
 
 h2 {
   margin-top: 1rem;
   font-family: 'Lovelo', sans-serif;
-  font-size: 50px;
+  font-size: 3rem;
   color: var(--fluorescent-blue);
   text-shadow: -1px -1px 0 var(--rich-black),
   0 -1px 0 var(--rich-black),
@@ -176,13 +170,13 @@ h2 {
 h3 {
   font-family: 'Open Sans', sans-serif;
   font-weight: normal;
-  font-size: 34px;
+  font-size: 2rem;
 }
 
 p {
   font-family: 'Open Sans', sans-serif;
   font-weight: normal;
-  font-size: 30px;
+  font-size: 1.6rem;
   color: var(--rich-black);
 }
 
@@ -191,8 +185,8 @@ u {
 }
 
 #app {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   display: flex;
   flex-direction: column;
 }
@@ -270,8 +264,8 @@ u {
 
 .popup {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   background-color: rgba(4, 42, 43, 0.8);
 
   display: flex;
