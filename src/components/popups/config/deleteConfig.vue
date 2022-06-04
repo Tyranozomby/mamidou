@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div id="left">
       <h3>{{ $t("config.child") }}</h3>
       <form @submit.prevent="valider" class="configForm deleteChild">
@@ -28,7 +28,7 @@
 
         <div class="inputGroup">
           <label for="deleteValueDate">{{ $t('placeholders.choose') }}</label>
-          <select id="deleteValueDate" required :disabled="selectedChild === ''">
+          <select ref="select" id="deleteValueDate" required :disabled="selectedChild === ''">
             <option value="" disabled selected>{{ $t('placeholders.child') }} {{ $t('basics.before') }}</option>
             <option v-for="data in $store.getters.data[selectedChild]" v-bind:key="data" :value="data.date">
               {{ data.date }} - {{ data.value }} cm
@@ -66,8 +66,9 @@ export default {
         r = await RequestsService.deleteChild(child)
         this.selectedChild = ""
 
-        if (r.status === 200)
+        if (r.status === 200) {
           await this.$store.dispatch("updateChildren")
+        }
 
       } else if (e.target.classList.contains("deleteValue")) {
         const child = e.target[0].value

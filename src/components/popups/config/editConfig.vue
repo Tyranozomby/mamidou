@@ -20,7 +20,7 @@
         <div class="inputGroup">
           <label for="editChildDate">{{ $t('basics.birthday') }}</label>
           <input type="date" :disabled="selectedChildChild === ''"
-                 :value="selectedChildChild !== '' ? ($store.getters.children[selectedChildChild].date).split('/').reverse().join('-') : null">
+                 :value="selectedChildChild !== '' && $store.getters.children[selectedChildChild] ? ($store.getters.children[selectedChildChild].date).split('/').reverse().join('-') : null">
         </div>
 
         <button type="submit">{{ $t('basics.send') }}</button>
@@ -39,7 +39,7 @@
 
         <div class="inputGroup">
           <label for="editValueDate">{{ $t('placeholders.choose') }}</label>
-          <select id="editValueDate" required :disabled="selectedChildValue === ''">
+          <select ref="select" id="editValueDate" required :disabled="selectedChildValue === ''">
             <option value="" disabled selected>{{ $t('placeholders.child') }} {{ $t('basics.before') }}</option>
             <option v-for="data in $store.getters.data[selectedChildValue]" v-bind:key="data" :value="data.date">
               {{ data.date }} - {{ data.value }} cm

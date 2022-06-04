@@ -8,14 +8,20 @@
       <login-config v-if="!$store.getters.isConnected"/>
       <div v-else class="center">
         <div id="titles">
-          <p class="title" @click="(e) => mode('edit', e)">{{ $t("config.edit") }}</p>
-          <p class="title selected" @click="(e) => mode('add', e)">{{ $t("config.add") }}</p>
-          <p class="title" @click="(e) => mode('delete', e)">{{ $t("config.delete") }}</p>
+          <p class="title" :class="this.mode === 0 ? 'selected' : ''" @click="() => this.mode = 0">
+            {{ $t("config.edit") }}
+          </p>
+          <p class="title" :class="this.mode === 1 ? 'selected' : ''" @click="() => this.mode = 1">
+            {{ $t("config.add") }}
+          </p>
+          <p class="title" :class="this.mode === 2 ? 'selected' : ''" @click="() => this.mode = 2">
+            {{ $t("config.delete") }}
+          </p>
         </div>
         <div id="editing" class="center">
-          <edit-config class="configMode" id="edit"/>
-          <add-config class="configMode" id="add" style="display: flex"/>
-          <delete-config class="configMode" id="delete"/>
+          <edit-config ref="edit" class="configMode" id="edit" v-show="mode === 0"/>
+          <add-config ref="add" class="configMode" id="add" v-show="mode === 1"/>
+          <delete-config ref="delete" class="configMode" id="delete" v-show="mode === 2"/>
         </div>
       </div>
     </div>
@@ -33,19 +39,33 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Config",
   components: {DeleteConfig, AddConfig, LoginConfig, EditConfig, CloseButton},
+  data() {
+    return {mode: 1}
+  },
   methods: {
     close() {
       const config = document.getElementById("config")
       config.style.display = "none"
-    },
-    mode(mode, e) {
-      // Définit le texte cliqué comme sélectionné
-      Array.from(document.getElementsByClassName("title")).forEach(t => t.classList.remove("selected"))
-      e.target.classList.add("selected")
-
-      // Affiche le contenu correspondant
-      Array.from(document.getElementsByClassName("configMode")).forEach(m => m.style.display = "none")
-      document.getElementById(mode).style.display = "flex"
+    }
+  },
+  watch: {
+    "$store.getters.names": {
+      deep: true,
+      immediate: true,
+      handler() {
+        if (this.$refs.edit) {
+          this.$refs.edit.selectedChildChild = ""
+          this.$refs.edit.selectedChildValue = ""
+          this.$refs.edit.$refs.select.value = ""
+        }
+        if (this.$refs.add) {
+          this.$refs.add.selectedChild = ""
+        }
+        if (this.$refs.delete) {
+          this.$refs.delete.selectedChild = ""
+          this.$refs.delete.$refs.select.value = ""
+        }
+      }
     }
   }
 }
@@ -92,6 +112,7 @@ export default {
 }
 
 .configMode {
-  display: none;
+  display: flex;
+  flex-direction: row;
 }
 </style>
