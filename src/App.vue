@@ -6,13 +6,13 @@
       <div id="graphMode">
         <h3>{{ $t("basics.age") }}</h3>
         <div id="toggleButton">
-          <input v-model="toggle" type="checkbox" id="toggle">
-          <label for="toggle" class="button"></label>
+          <input id="toggle" v-model="toggle" type="checkbox">
+          <label class="button" for="toggle"></label>
         </div>
         <h3>{{ $t("basics.date") }}</h3>
       </div>
     </div>
-    <Graph id="graph" v-if="$store.getters.children != null && $store.getters.data != null" :type="type"
+    <Graph v-if="$store.getters.children != null && $store.getters.data != null" id="graph" :type="type"
            @pointClicked="pointClicked"/>
   </div>
   <Config id="config"/>
@@ -54,20 +54,6 @@ export default {
     }
   },
   methods: {
-    updateChildren: async function (data) {
-      if (!data) {
-        const response = await RequestsServices.getChildren()
-        data = response.data;
-      }
-      this.children = data;
-    },
-    updateData: async function (data) {
-      if (!data) {
-        const response = await RequestsServices.getData()
-        data = response.data;
-      }
-      this.donnees = data;
-    },
     pointClicked: function (data) {
       this.point = data
     }
@@ -118,6 +104,17 @@ export default {
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+:root {
+  --rich-black: #042A2B;
+  --maximum-blue: #5EB1BF;
+  --fluorescent-blue: #54F2F2;
+  --white: #FCFCFC;
+  --red-salsa: #F05D5E;
+  --graph-bg: #adeaea;
+
+  --iconBallSize: 4.5rem;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -125,14 +122,8 @@ html, body {
   height: 100%;
 }
 
-:root {
-  --rich-black: #042A2B;
-  --maximum-blue: #5EB1BF;
-  --fluorescent-blue: #54F2F2;
-  --white: #FCFCFC;
-  --red-salsa: #F05D5E;
-
-  --iconBallSize: 4.5rem;
+body {
+  background-color: var(--fluorescent-blue);
 }
 
 @media screen and (max-width: 600px) {

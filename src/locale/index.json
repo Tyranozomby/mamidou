@@ -7,7 +7,7 @@
       "date": "Date",
       "height": "Taille",
       "age": "Age",
-      "send": "Envoyer",
+      "send": "Valider",
       "child": "Enfant",
       "before": "avant"
     },
@@ -16,7 +16,9 @@
       "color": "Couleur représentant l'enfant",
       "height": "Taille en cm",
       "child": "Choisissez un enfant",
-      "choose": "Choisissez la donnée"
+      "choose": "Choisissez la donnée",
+      "deleteChildConf": "Êtes-vous sûr de vouloir supprimer cet enfant ?",
+      "deleteValConf": "Êtes-vous sûr de vouloir supprimer cette valeur ?"
     },
     "main": {
       "mode": "Taille par :"
@@ -66,7 +68,9 @@
       "color": "Best couleur for the gosse",
       "height": "Height in vertical burgers",
       "child": "Select a gosse",
-      "choose": "Choose the donnée"
+      "choose": "Choose the donnée",
+      "deleteChildConf": "Are you sûr de vouloir remove ce child?",
+      "deleteValConf": "Are you sûr de vouloir delete this valeur?"
     },
     "main": {
       "mode": "Size by:"

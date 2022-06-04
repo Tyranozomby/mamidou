@@ -2,25 +2,27 @@
   <div>
     <div id="left">
       <h3>{{ $t("config.child") }}</h3>
-      <form @submit.prevent="valider" class="configForm editChild">
+      <form class="configForm editChild" @submit.prevent="valider">
         <div class="inputGroup">
           <label for="editChildChild">{{ $t('basics.child') }}</label>
-          <select v-model="selectedChildChild" id="editChildChild" required>
-            <option value="" disabled selected>{{ $t('placeholders.child') }}</option>
+          <select id="editChildChild" v-model="selectedChildChild" required>
+            <option disabled selected value="">{{ $t('placeholders.child') }}</option>
             <option v-for="name in $store.getters.names" :key="name">{{ name }}</option>
           </select>
         </div>
 
         <div class="inputGroup">
           <label for="editChildColor">{{ $t('basics.color') }}</label>
-          <input type="color" :title="$t('placeholders.color')" :disabled="selectedChildChild === ''"
-                 :value="(selectedChildChild !== '' && $store.getters.children[selectedChildChild]) ? $store.getters.children[selectedChildChild].color : '#aaaaaa'">
+          <input :disabled="selectedChildChild === ''" :title="$t('placeholders.color')"
+                 :value="(selectedChildChild !== '' && $store.getters.children[selectedChildChild]) ? $store.getters.children[selectedChildChild].color : '#aaaaaa'"
+                 type="color">
         </div>
 
         <div class="inputGroup">
           <label for="editChildDate">{{ $t('basics.birthday') }}</label>
-          <input type="date" :disabled="selectedChildChild === ''"
-                 :value="selectedChildChild !== '' && $store.getters.children[selectedChildChild] ? ($store.getters.children[selectedChildChild].date).split('/').reverse().join('-') : null">
+          <input :disabled="selectedChildChild === ''"
+                 :value="selectedChildChild !== '' && $store.getters.children[selectedChildChild] ? ($store.getters.children[selectedChildChild].date).split('/').reverse().join('-') : null"
+                 type="date">
         </div>
 
         <button type="submit">{{ $t('basics.send') }}</button>
@@ -28,19 +30,19 @@
     </div>
     <div id="right">
       <h3>{{ $t("config.value") }}</h3>
-      <form @submit.prevent="valider" class="configForm editValue">
+      <form class="configForm editValue" @submit.prevent="valider">
         <div class="inputGroup">
           <label for="editValueChild">{{ $t('basics.child') }}</label>
-          <select @change="changeChild" v-model="selectedChildValue" id="editValueChild" required>
-            <option value="" disabled selected>{{ $t('placeholders.child') }}</option>
-            <option v-bind:key="name" v-for="name in $store.getters.names">{{ name }}</option>
+          <select id="editValueChild" v-model="selectedChildValue" required @change="changeChild">
+            <option disabled selected value="">{{ $t('placeholders.child') }}</option>
+            <option v-for="name in $store.getters.names" v-bind:key="name">{{ name }}</option>
           </select>
         </div>
 
         <div class="inputGroup">
           <label for="editValueDate">{{ $t('placeholders.choose') }}</label>
-          <select ref="select" id="editValueDate" required :disabled="selectedChildValue === ''">
-            <option value="" disabled selected>{{ $t('placeholders.child') }} {{ $t('basics.before') }}</option>
+          <select id="editValueDate" ref="select" :disabled="selectedChildValue === ''" required>
+            <option disabled selected value="">{{ $t('placeholders.child') }} {{ $t('basics.before') }}</option>
             <option v-for="data in $store.getters.data[selectedChildValue]" v-bind:key="data" :value="data.date">
               {{ data.date }} - {{ data.value }} cm
             </option>
@@ -49,8 +51,9 @@
 
         <div class="inputGroup">
           <label for="editValueHeight">{{ $t("basics.height") }}</label>
-          <input id="editValueHeight" type="number" :placeholder="$t('placeholders.height')" min="1" step=".1"
-                 :disabled="selectedChildValue === ''" required>
+          <input id="editValueHeight" :disabled="selectedChildValue === ''" :placeholder="$t('placeholders.height')"
+                 min="1" required
+                 step=".1" type="number">
         </div>
 
         <button type="submit">{{ $t('basics.send') }}</button>

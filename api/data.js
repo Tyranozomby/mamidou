@@ -3,15 +3,30 @@ const fs = require("fs");
 const {validToken} = require("./token")
 const {deleteData, dataSort} = require("./functions")
 
+/**
+ * Chemin de stockage du fichier des données
+ * @type {string}
+ */
 const DATA_FILE = __dirname + "/../data/data.json";
 
-
+/**
+ * Renvoie la liste des données
+ *
+ * @param req {e.Request}
+ * @param res {e.Response}
+ */
 function getAll(req, res) {
     fs.readFile(DATA_FILE, 'utf8', function (err, data) {
         res.send(data);
     });
 }
 
+/**
+ * Renvoie les données d'un enfant précis
+ *
+ * @param req {e.Request}
+ * @param res {e.Response}
+ */
 function getData(req, res) {
     const child = req.params.child;
 
@@ -23,6 +38,12 @@ function getData(req, res) {
     });
 }
 
+/**
+ * Ajoute une donnée à un enfant
+ *
+ * @param req {e.Request}
+ * @param res {e.Response}
+ */
 function addData(req, res) {
     if (!validToken(req.headers["x-access-token"]))
         return res.status(403).end()
@@ -54,6 +75,12 @@ function addData(req, res) {
     });
 }
 
+/**
+ * Modifie une donnée d'un enfant
+ *
+ * @param req {e.Request}
+ * @param res {e.Response}
+ */
 function editData(req, res) {
     if (!validToken(req.headers["x-access-token"]))
         return res.status(403).end()
@@ -82,6 +109,12 @@ function editData(req, res) {
     });
 }
 
+/**
+ * Supprime toutes les données d'un enfant
+ *
+ * @param req {e.Request}
+ * @param res {e.Response}
+ */
 function deleteAllDataOf(req, res) {
     if (!validToken(req.headers["x-access-token"]))
         return res.status(403).end()
@@ -89,6 +122,12 @@ function deleteAllDataOf(req, res) {
     deleteData(req, res, DATA_FILE)
 }
 
+/**
+ * Supprime une donnée d'un enfant
+ *
+ * @param req {e.Request}
+ * @param res {e.Response}
+ */
 function deleteDataOf(req, res) {
     if (!validToken(req.headers["x-access-token"]))
         return res.status(403).end()
@@ -117,6 +156,14 @@ function deleteDataOf(req, res) {
     });
 }
 
+// ----- FONCTION -----
+
+/**
+ * Enregistre les nouvelles données et renvoie la réponse
+ *
+ * @param json {Object}
+ * @param res {e.Response}
+ */
 function writeAndSend(json, res) {
     const txt = JSON.stringify(json, null, 2);
     fs.writeFile(DATA_FILE, txt, (err) => {

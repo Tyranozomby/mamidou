@@ -3,11 +3,11 @@
     <div id="toolButtons">
       <div id="reducedIcon" class="iconBall">
         <!--  Menu Icon by Akveo on IconScout -->
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <rect width="24" height="24" opacity="0" transform="rotate(180 12 12)"/>
-          <rect width="18" height="2" x="3" y="11" rx=".95" ry=".95"/>
-          <rect width="18" height="2" x="3" y="16" rx=".95" ry=".95"/>
-          <rect width="18" height="2" x="3" y="6" rx=".95" ry=".95"/>
+        <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect height="24" opacity="0" transform="rotate(180 12 12)" width="24"/>
+          <rect height="2" rx=".95" ry=".95" width="18" x="3" y="11"/>
+          <rect height="2" rx=".95" ry=".95" width="18" x="3" y="16"/>
+          <rect height="2" rx=".95" ry=".95" width="18" x="3" y="6"/>
         </svg>
       </div>
       <div id="toolButtonsBackground">
@@ -40,9 +40,9 @@
           :key="lang.title"
           :country="lang.flag"
           :rounded="true"
+          class="flag clickable"
           size="big"
-          @click="changeLocale(lang.lang)"
-          class="flag clickable"/>
+          @click="changeLocale(lang.lang)"/>
     </div>
   </header>
 </template>

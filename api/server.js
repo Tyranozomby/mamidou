@@ -15,7 +15,9 @@ const children = require('./children.js')
 const data = require('./data')
 
 // ---------- LOGIN ----------
+// Connexion
 app.post("/api/login", connexion.login)
+// Rafraichir le token
 app.get("/api/refreshToken", connexion.refreshToken)
 
 

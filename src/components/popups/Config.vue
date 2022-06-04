@@ -8,20 +8,20 @@
       <login-config v-if="!$store.getters.isConnected"/>
       <div v-else class="center">
         <div id="titles">
-          <p class="title" :class="this.mode === 0 ? 'selected' : ''" @click="() => this.mode = 0">
+          <p :class="this.mode === 0 ? 'selected' : ''" class="title" @click="() => this.mode = 0">
             {{ $t("config.edit") }}
           </p>
-          <p class="title" :class="this.mode === 1 ? 'selected' : ''" @click="() => this.mode = 1">
+          <p :class="this.mode === 1 ? 'selected' : ''" class="title" @click="() => this.mode = 1">
             {{ $t("config.add") }}
           </p>
-          <p class="title" :class="this.mode === 2 ? 'selected' : ''" @click="() => this.mode = 2">
+          <p :class="this.mode === 2 ? 'selected' : ''" class="title" @click="() => this.mode = 2">
             {{ $t("config.delete") }}
           </p>
         </div>
         <div id="editing" class="center">
-          <edit-config ref="edit" class="configMode" id="edit" v-show="mode === 0"/>
-          <add-config ref="add" class="configMode" id="add" v-show="mode === 1"/>
-          <delete-config ref="delete" class="configMode" id="delete" v-show="mode === 2"/>
+          <edit-config v-show="mode === 0" id="edit" ref="edit" class="configMode"/>
+          <add-config v-show="mode === 1" id="add" ref="add" class="configMode"/>
+          <delete-config v-show="mode === 2" id="delete" ref="delete" class="configMode"/>
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@
 
 <script>
 import CloseButton from "@/components/popups/CloseButton";
+
 import EditConfig from "@/components/popups/config/editConfig";
 import LoginConfig from "@/components/popups/config/loginConfig";
 import AddConfig from "@/components/popups/config/addConfig";

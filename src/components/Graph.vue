@@ -1,7 +1,7 @@
 <template>
   <div v-if="this.data != null">
-    <Scatter class="graph" v-if="type==='ta'" :chart-data="dataAge" :chart-options="optionsAge"/>
-    <Scatter class="graph" v-else-if="type==='td'" :chart-data="dataDate" :chart-options="optionsDate"/>
+    <Scatter :chart-data="type==='ta' ? dataAge : dataDate" :chart-options="type==='ta' ? optionsAge : optionsDate"
+             class="graph"/>
   </div>
 </template>
 
@@ -254,7 +254,7 @@ export default {
   height: 40rem !important;
   width: 85rem !important;
   padding: 5px;
-  background-color: var(--fluorescent-blue);
+  background-color: var(--graph-bg);
   border: var(--maximum-blue) 5px solid;
   border-radius: 10px;
 }

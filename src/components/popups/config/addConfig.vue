@@ -2,20 +2,20 @@
   <div>
     <div id="left">
       <h3>{{ $t("config.child") }}</h3>
-      <form @submit.prevent="valider" class="configForm addChild">
+      <form class="configForm addChild" @submit.prevent="valider">
         <div class="inputGroup">
           <label for="addChildName">{{ $t('basics.name') }}</label>
-          <input required id="addChildName" type="text" :placeholder="$t('placeholders.name')">
+          <input id="addChildName" :placeholder="$t('placeholders.name')" required type="text">
         </div>
 
         <div class="inputGroup">
           <label for="addChildColor">{{ $t('basics.color') }}</label>
-          <input required id="addChildColor" type="color" :title="$t('placeholders.color')">
+          <input id="addChildColor" :title="$t('placeholders.color')" required type="color">
         </div>
 
         <div class="inputGroup">
           <label for="addChildBirth">{{ $t('basics.birthday') }}</label>
-          <input required id="addChildBirth" type="date">
+          <input id="addChildBirth" required type="date">
         </div>
 
         <button type="submit">{{ $t('basics.send') }}</button>
@@ -23,24 +23,24 @@
     </div>
     <div id="right">
       <h3>{{ $t("config.value") }}</h3>
-      <form @submit.prevent="valider" class="configForm addValue">
+      <form class="configForm addValue" @submit.prevent="valider">
         <div class="inputGroup">
           <label for="addValueChild">{{ $t("basics.name") }}</label>
-          <select v-model="selectedChild" id="addValueChild" required>
-            <option value="" disabled selected>{{ $t('placeholders.child') }}</option>
-            <option :key="name" v-for="name in $store.getters.names">{{ name }}</option>
+          <select id="addValueChild" v-model="selectedChild" required>
+            <option disabled selected value="">{{ $t('placeholders.child') }}</option>
+            <option v-for="name in $store.getters.names" :key="name">{{ name }}</option>
           </select>
         </div>
 
         <div class="inputGroup">
           <label for="addValueDate">{{ $t("basics.date") }}</label>
-          <input id="addValueDate" type="date" :value="today" :disabled="selectedChild === ''" required>
+          <input id="addValueDate" :disabled="selectedChild === ''" :value="today" required type="date">
         </div>
 
         <div class="inputGroup">
           <label for="addValueHeight">{{ $t("basics.height") }}</label>
-          <input id="addValueHeight" type="number" :placeholder="$t('placeholders.height')" min="1" step=".1"
-                 :disabled="selectedChild === ''" required>
+          <input id="addValueHeight" :disabled="selectedChild === ''" :placeholder="$t('placeholders.height')"
+                 min="1" required step=".1" type="number">
         </div>
 
         <button type="submit">{{ $t('basics.send') }}</button>
