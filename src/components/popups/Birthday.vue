@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div class="popup" ref="birthday">
     <div class="container">
       <div>
         <close-button @click="close"/>
@@ -23,8 +23,7 @@ export default {
   components: {CloseButton},
   methods: {
     close() {
-      const birthday = document.getElementById("birthday")
-      birthday.style.display = "none"
+      this.$emit("close")
     },
     dateToStr: function (date) {
       const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];

@@ -20,7 +20,7 @@
         <div class="inputGroup">
           <label for="deleteValueChild">{{ $t('basics.child') }}</label>
           <select id="deleteValueChild"
-                  v-model="selectedChild" required @change="changeChild">
+                  v-model="selectedChild" required @change="this.$refs.select.children[0].selected = true">
             <option disabled selected value="">{{ $t('placeholders.child') }}</option>
             <option v-for="name in $store.getters.names" v-bind:key="name">{{ name }}</option>
           </select>
@@ -88,10 +88,6 @@ export default {
             await this.$store.dispatch("updateData")
         }
       }
-    },
-    changeChild() {
-      let querySelector = document.querySelector('#deleteValueDate');
-      querySelector.children[0].selected = true
     }
   }
 }

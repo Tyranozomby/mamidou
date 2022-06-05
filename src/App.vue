@@ -1,5 +1,5 @@
 <template>
-  <Header id="header"/>
+  <Header id="header" @show="m => this.mode = m"/>
   <div id="content">
     <div>
       <h3>{{ $t("main.mode") }}</h3>
@@ -12,12 +12,11 @@
         <h3>{{ $t("basics.date") }}</h3>
       </div>
     </div>
-    <Graph v-if="$store.getters.children != null && $store.getters.data != null" id="graph" :type="type"
-           @pointClicked="pointClicked"/>
+    <Graph v-if="$store.getters.children != null && $store.getters.data != null" id="graph" :type="type"/>
   </div>
-  <Config id="config"/>
-  <Help id="help"/>
-  <Birthday id="birthday"/>
+  <Config v-if="mode === 1" @close="mode = 0"/>
+  <Help v-else-if="mode === 2" @close="mode = 0"/>
+  <Birthday v-else-if="mode === 3" @close="mode = 0"/>
 </template>
 
 <script>
@@ -42,7 +41,7 @@ export default {
   data() {
     return {
       toggle: false,
-      point: {}
+      mode: 0
     }
   },
   computed: {
@@ -51,11 +50,6 @@ export default {
         return "td"
       else
         return "ta"
-    }
-  },
-  methods: {
-    pointClicked: function (data) {
-      this.point = data
     }
   },
   async beforeMount() {

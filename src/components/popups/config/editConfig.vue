@@ -33,7 +33,8 @@
       <form class="configForm editValue" @submit.prevent="valider">
         <div class="inputGroup">
           <label for="editValueChild">{{ $t('basics.child') }}</label>
-          <select id="editValueChild" v-model="selectedChildValue" required @change="changeChild">
+          <select id="editValueChild" v-model="selectedChildValue" required
+                  @change="this.$refs.select.children[0].selected = true">
             <option disabled selected value="">{{ $t('placeholders.child') }}</option>
             <option v-for="name in $store.getters.names" v-bind:key="name">{{ name }}</option>
           </select>
@@ -95,10 +96,6 @@ export default {
         if (response.status === 200)
           await this.$store.dispatch("updateData")
       }
-    },
-    changeChild() {
-      let querySelector = document.querySelector('#editValueDate');
-      querySelector.children[0].selected = true
     }
   }
 }

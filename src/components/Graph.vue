@@ -155,14 +155,6 @@ export default {
             }
           }
         },
-        onClick: (e, a) => {
-          if (a.length !== 0) {
-            const point = a[0];
-            const child = Object.keys(this.children)[point.datasetIndex];
-            const values = this.data[child][point.index];
-            this.$emit("pointClicked", {child: child, date: values.date, value: values.value, pos: point.index})
-          }
-        },
         maintainAspectRatio: false
       }
     },
@@ -219,14 +211,6 @@ export default {
             time: {
               unit: "year"
             }
-          }
-        },
-        onClick: (e, a) => {
-          if (a.length !== 0) {
-            const point = a[0];
-            const child = Object.keys(this.children)[point.datasetIndex];
-            const values = this.data[child][point.index];
-            this.$emit("pointClicked", {child: child, date: values.date, value: values.value})
           }
         },
         maintainAspectRatio: false

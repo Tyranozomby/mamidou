@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div ref="help" class="popup">
     <div class="container">
       <div>
         <close-button @click="close"/>
@@ -9,9 +9,8 @@
         <p>{{ $t('help.explication') }}</p>
         <p v-html="$t('help.infos')"/>
         <p class="red" v-html="$t('help.msg')"/>
-        <small>Eliott - 21 juin 2022</small>
       </div>
-
+      <small>Eliott - 21 juin 2022</small>
     </div>
   </div>
 </template>
@@ -25,16 +24,18 @@ export default {
   components: {CloseButton},
   methods: {
     close() {
-      const help = document.getElementById("help")
-      help.style.display = "none"
+      this.$emit("close")
     }
   }
 }
 </script>
 
 <style scoped>
+.container {
+  row-gap: 2rem;
+}
+
 .content {
-  flex-grow: 1;
   margin: 2.5rem 2rem 2rem;
   text-align: center;
 }
@@ -43,6 +44,7 @@ small {
   font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   color: var(--rich-black);
+  text-align: center;
 }
 
 .red {

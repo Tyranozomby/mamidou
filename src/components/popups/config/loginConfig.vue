@@ -1,12 +1,12 @@
 <template>
   <div class="content">
     <p>{{ $t("config.notConnected") }}</p>
-    <form id="loginForm" @submit.prevent="login">
+    <form ref="form" @submit.prevent="login">
       <div id="input">
-        <input id="password" :placeholder="$t('config.password')" autocomplete="password" autofocus="autofocus"
+        <input ref="password" :placeholder="$t('config.password')" autocomplete="password" autofocus="autofocus"
                type="password"/>
 
-        <svg id="eye-on" viewBox="0 0 24 24" @click="eye(1)">
+        <svg ref="eye-on" viewBox="0 0 24 24" @click="eye(1)">
           <title>{{ $t('config.eye-on') }}</title>
           <rect height="24" opacity="0" width="24"/>
           <path
@@ -15,7 +15,7 @@
               d="M12 8.5a3.5 3.5 0 1 0 3.5 3.5A3.5 3.5 0 0 0 12 8.5zm0 5a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5z"/>
         </svg>
 
-        <svg id="eye-off" style="display: none" viewBox="0 0 24 24" @click="eye(0)">
+        <svg ref="eye-off" style="display: none" viewBox="0 0 24 24" @click="eye(0)">
           <title>{{ $t('config.eye-off') }}</title>
           <rect height="24" opacity="0" width="24"/>
           <path
@@ -45,19 +45,19 @@ export default {
       if (response.status === 200) {
         this.$store.commit("login", {token: response.data})
       } else {
-        document.querySelector("#loginForm").style.rowGap = "1rem";
+        this.$refs.form.style.rowGap = "1rem";
         this.$refs['login_error'].style.display = "block"
       }
     },
     eye(int) {
       if (int === 1) {
-        document.getElementById("eye-on").style.display = "none"
-        document.getElementById("eye-off").style.display = "block"
-        document.getElementById("password").type = "text"
+        this.$refs["eye-on"].style.display = "none"
+        this.$refs["eye-off"].style.display = "block"
+        this.$refs.password.type = "text"
       } else {
-        document.getElementById("eye-on").style.display = "block"
-        document.getElementById("eye-off").style.display = "none"
-        document.getElementById("password").type = "password"
+        this.$refs["eye-on"].style.display = "block"
+        this.$refs["eye-off"].style.display = "none"
+        this.$refs.password.type = "password"
       }
     }
   }

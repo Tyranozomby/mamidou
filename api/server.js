@@ -9,10 +9,14 @@ if (cors.NODE_ENV !== 'production') {
     app.use(cors())
 }
 
-
 const connexion = require('./connexion.js')
 const children = require('./children.js')
 const data = require('./data')
+
+require('dotenv').config({path: "../.env"});
+if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRATION || !process.env.PASSWORD || !process.env.API_PORT) {
+    throw "Fichier .env inexistant ou incomplet"
+}
 
 // ---------- LOGIN ----------
 // Connexion
@@ -50,7 +54,6 @@ app.delete("/api/data/:child/:position", data.deleteDataOf);
 
 
 // COMMENCER ÉCOUTE
-require('dotenv').config({path: "../.env"});
 app.listen(process.env.API_PORT, function () {
     console.log(`Prêt à l'écoute sur le port ${process.env.API_PORT}`);
 });

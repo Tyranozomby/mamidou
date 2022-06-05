@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div class="popup" ref="config">
     <div class="container">
       <div>
         <close-button @click="close"/>
@@ -45,8 +45,7 @@ export default {
   },
   methods: {
     close() {
-      const config = document.getElementById("config")
-      config.style.display = "none"
+      this.$emit("close")
     }
   },
   watch: {
