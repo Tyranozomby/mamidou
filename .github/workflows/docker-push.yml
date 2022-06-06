@@ -31,12 +31,14 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Docker Metadata
+      id: meta
       uses: docker/metadata-action@v4.0.1
       with:
         images: |
           tyranozomby/mamidou
         tags: |
-          type=sha
+          type=sha,prefix=
+          latest
 
     - name: Build and push image
       uses: docker/build-push-action@v3.0.0
