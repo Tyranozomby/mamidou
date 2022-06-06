@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const fs = require("fs")
 
 app.use(express.json());
 
@@ -13,9 +14,28 @@ const connexion = require('./connexion.js')
 const children = require('./children.js')
 const data = require('./data')
 
-require('dotenv').config({path: "../.env"});
-if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRATION || !process.env.PASSWORD || !process.env.API_PORT) {
-    throw "Fichier .env inexistant ou incomplet"
+require('dotenv').config({path: ".env"});
+if (!process.env.JWT_SECRET) {
+    throw "Variable d'environnement JWT_SECRET non trouvé"
+}
+if (!process.env.JWT_EXPIRATION) {
+    throw "Variable d'environnement JWT_EXPIRATION non trouvé"
+}
+if (!process.env.PASSWORD) {
+    throw "Variable d'environnement PASSWORD non trouvé"
+}
+
+process.env.NODE_ENV = process.env.NODE_ENV || "dev"
+if (process.env.NODE_ENV === 'production') {
+    console.log("Utilisation du fichier static")
+    app.use(express.static(process.env.STATIC_PATH));
+}
+
+if (!fs.existsSync("data/children.json")) {
+    fs.writeFileSync("data/children.json", "{}")
+}
+if (!fs.existsSync("data/data.json")) {
+    fs.writeFileSync("data/data.json", "{}")
 }
 
 // ---------- LOGIN ----------

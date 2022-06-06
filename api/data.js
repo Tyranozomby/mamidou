@@ -7,7 +7,7 @@ const {deleteData, dataSort} = require("./functions")
  * Chemin de stockage du fichier des données
  * @type {string}
  */
-const DATA_FILE = __dirname + "/../data/data.json";
+const DATA_FILE = "data/data.json";
 
 /**
  * Renvoie la liste des données

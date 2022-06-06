@@ -7,7 +7,7 @@ const {deleteData} = require("./functions")
  * Chemin de stockage des données sur les enfants
  * @type {string}
  */
-const CHILDREN_FILE = __dirname + "/../data/children.json";
+const CHILDREN_FILE = "data/children.json";
 
 /**
  * Renvoie la liste des enfants

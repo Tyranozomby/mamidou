@@ -3,7 +3,7 @@
     <p>{{ $t("config.notConnected") }}</p>
     <form ref="form" @submit.prevent="login">
       <div id="input">
-        <input ref="password" :placeholder="$t('config.password')" autocomplete="password" autofocus="autofocus"
+        <input ref="password" id="password" :placeholder="$t('config.password')" autocomplete="password" autofocus="autofocus"
                type="password"/>
 
         <svg ref="eye-on" viewBox="0 0 24 24" @click="eye(1)">
