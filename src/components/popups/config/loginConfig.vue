@@ -25,7 +25,7 @@
         </svg>
       </div>
       <span ref="login_error" class="error" style="display: none">{{ $t('config.wrong_password') }}</span>
-      <button id="submit" type="submit">Se connecter</button>
+      <button id="submit" type="submit">{{$t("config.login")}}</button>
     </form>
   </div>
 </template>

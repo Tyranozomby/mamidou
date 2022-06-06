@@ -48,7 +48,8 @@
       "delete": "Supprimer",
       "child": "Enfant",
       "value": "Valeur",
-      "wrong_password": "Mot de passe invalide"
+      "wrong_password": "Mot de passe invalide",
+      "login": "Se connecter"
     }
   },
   "en": {
@@ -100,7 +101,8 @@
       "delete": "Delete",
       "child": "Child",
       "value": "Value",
-      "wrong_password": "Invalid mot de passe"
+      "wrong_password": "Invalid mot de passe",
+      "login": "Se login"
     }
   }
 }
