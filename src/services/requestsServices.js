@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "@/store"
 
-const URL = "/api/"
+const URL = process.env.VUE_APP_API_URL
 
 class RequestsService {
 

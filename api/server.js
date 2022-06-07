@@ -5,7 +5,6 @@ const fs = require("fs")
 app.use(express.json());
 
 const cors = require('cors');
-
 if (cors.NODE_ENV !== 'production') {
     app.use(cors())
 }
@@ -14,7 +13,8 @@ const connexion = require('./connexion.js')
 const children = require('./children.js')
 const data = require('./data')
 
-require('dotenv').config({path: ".env"});
+require('dotenv-flow').config();
+
 if (!process.env.JWT_SECRET) {
     throw "Variable d'environnement JWT_SECRET non trouvé"
 }
@@ -74,6 +74,7 @@ app.delete("/api/data/:child/:position", data.deleteDataOf);
 
 
 // COMMENCER ÉCOUTE
+
 app.listen(process.env.API_PORT, function () {
     console.log(`Prêt à l'écoute sur le port ${process.env.API_PORT}`);
 });

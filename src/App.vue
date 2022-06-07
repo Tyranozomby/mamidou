@@ -106,6 +106,12 @@ export default {
   --red-salsa: #F05D5E;
   --graph-bg: #adeaea;
 
+  --blue1: #3E92CC;
+  --blue2: #2A628F;
+  --blue3: #13293D;
+  --green: #1AFFD5;
+  --red: #590925;
+
   --iconBallSize: 4.5rem;
 }
 

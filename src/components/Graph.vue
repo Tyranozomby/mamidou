@@ -56,8 +56,8 @@ export default {
           data: data,
           backgroundColor: child.color,
           borderColor: child.color,
-          pointRadius: 8,
-          pointHoverRadius: 9,
+          pointRadius: 6,
+          pointHoverRadius: 8,
         });
 
       }
@@ -86,8 +86,8 @@ export default {
           data: data,
           backgroundColor: child.color,
           borderColor: child.color,
-          pointRadius: 8,
-          pointHoverRadius: 9,
+          pointRadius: 6,
+          pointHoverRadius: 8,
         });
       }
       return datasets

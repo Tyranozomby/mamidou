@@ -19,7 +19,7 @@ function validToken(token) {
 }
 
 /**
- * Renvoie un token de connexion d'une durée de 7 jours (modifiable dans le fichier .env)
+ * Renvoie un token de connexion d'une durée de 7 jours (modifiable dans le fichier .env.development)
  *
  * @return {string}
  */
