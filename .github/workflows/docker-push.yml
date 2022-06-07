@@ -30,7 +30,7 @@ jobs:
         key: client-build-${{ hashFiles('public', 'src') }}
 
     - name: Build Vue Project
-      if: steps.build-cache.outputs.cache-hits != 'true'
+      if: steps.build-cache.outputs.cache-hit != 'true'
       run: yarn build
 
     - name: Docker Setup Buildx
