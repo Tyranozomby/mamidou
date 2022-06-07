@@ -14,6 +14,12 @@ const data = require('./data')
 process.env.NODE_ENV = process.env.NODE_ENV || "development"
 require('dotenv-flow').config();
 
+if (process.env.NODE_ENV === 'production') {
+    console.log("Utilisation du fichier static")
+    app.use(express.static(process.env.STATIC_PATH));
+}
+
+
 if (!process.env.JWT_SECRET) {
     throw "Variable d'environnement JWT_SECRET non trouvé"
 }
@@ -24,10 +30,6 @@ if (!process.env.PASSWORD) {
     throw "Variable d'environnement PASSWORD non trouvé"
 }
 
-if (process.env.NODE_ENV === 'production') {
-    console.log("Utilisation du fichier static")
-    app.use(express.static(process.env.STATIC_PATH));
-}
 
 if (!fs.existsSync("data/children.json")) {
     fs.writeFileSync("data/children.json", "{}")
