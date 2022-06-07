@@ -27,7 +27,7 @@ jobs:
       id: build-cache
       with:
         path: dist
-        key: client-build-${{ hashFiles('public', 'src') }}
+        key: client-build-${{ hashFiles('public', 'src', 'yarn.lock', '.env*', '/*.js', '/*.json') }}
 
     - name: Build Vue Project
       if: steps.build-cache.outputs.cache-hit != 'true'
