@@ -12,25 +12,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Setup Node.js environment
       uses: actions/setup-node@v3.3.0
       with:
         node-version: 17
-#        cache: yarn
+        cache: yarn
 
     - name: Yarn Install
       run: yarn install
 
-#    - name: Cache Vue Build
-#      uses: actions/cache@v3.0.4
-#      id: build-cache
-#      with:
-#        path: dist
-#        key: client-build-${{ hashFiles('public', 'src', 'yarn.lock', '.env*', '/*.js', '/*.json') }}
+    - name: Cache Vue Build
+      uses: actions/cache@v3.0.4
+      id: build-cache
+      with:
+        path: dist
+        key: client-build-${{ hashFiles('public', 'src', 'yarn.lock', '.env*', '/*.js', '/*.json') }}
 
     - name: Build Vue Project
-#      if: steps.build-cache.outputs.cache-hit != 'true'
+      if: steps.build-cache.outputs.cache-hit != 'true'
       run: yarn build
 
     - name: Docker Setup Buildx
