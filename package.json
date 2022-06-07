@@ -5,9 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "run-back-dev": "cross-env NODE_ENV=development node api/server.js",
-    "run-back": "cross-env NODE_ENV=production node api/server.js",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "run-back": "cross-env-shell NODE_ENV=production node api/server.js",
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "axios": "^0.26.0",
