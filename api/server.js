@@ -5,14 +5,13 @@ const fs = require("fs")
 app.use(express.json());
 
 const cors = require('cors');
-if (cors.NODE_ENV !== 'production') {
-    app.use(cors())
-}
+app.use(cors())
 
 const connexion = require('./connexion.js')
 const children = require('./children.js')
 const data = require('./data')
 
+process.env.NODE_ENV = process.env.NODE_ENV || "development"
 require('dotenv-flow').config();
 
 if (!process.env.JWT_SECRET) {
@@ -25,7 +24,6 @@ if (!process.env.PASSWORD) {
     throw "Variable d'environnement PASSWORD non trouvé"
 }
 
-process.env.NODE_ENV = process.env.NODE_ENV || "dev"
 if (process.env.NODE_ENV === 'production') {
     console.log("Utilisation du fichier static")
     app.use(express.static(process.env.STATIC_PATH));

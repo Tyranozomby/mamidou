@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "run-back-dev": "cross-env NODE_ENV=development node api/server.js",
-    "run-back": "cross-env-shell NODE_ENV=production node api/server.js",
+    "run-back": "node api/server.js",
     "build": "vue-cli-service build"
   },
   "dependencies": {
