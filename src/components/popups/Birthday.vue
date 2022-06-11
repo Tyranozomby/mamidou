@@ -1,5 +1,6 @@
 <template>
-  <div class="popup" ref="birthday">
+  <div ref="birthday" class="popup">
+    <div class="blocker" @click="close"/>
     <div class="container">
       <div>
         <close-button @click="close"/>
@@ -68,7 +69,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/style/popups.scss";
+
 .content {
   display: flex;
   flex-direction: column;
@@ -84,17 +87,12 @@ export default {
   height: 60%;
   max-height: 20rem;
   aspect-ratio: 1;
-}
 
-@media only screen and (min-width: 321px) and (max-width: 799px) {
-  #cake {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 800px) and (max-width: 1200px) {
-  #cake {
+  @media only screen and (min-width: 600px) and (max-width: 1200px) {
     max-height: 15rem;
+  }
+  @media only screen and (max-width: 599px) {
+    display: none;
   }
 }
 </style>

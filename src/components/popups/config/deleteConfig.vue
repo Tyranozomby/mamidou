@@ -4,7 +4,7 @@
       <h3>{{ $t("config.child") }}</h3>
       <form class="configForm deleteChild" @submit.prevent="valider">
         <div class="inputGroup">
-          <label for="deleteChildChild">{{ $t('basics.child') }}</label>
+          <label for="deleteChildChild">{{ $t('basics.name') }}</label>
           <select id="deleteChildChild" required>
             <option disabled selected value="">{{ $t('placeholders.child') }}</option>
             <option v-for="name in $store.getters.names" v-bind:key="name">{{ name }}</option>
@@ -18,7 +18,7 @@
       <h3>{{ $t("config.value") }}</h3>
       <form class="configForm deleteValue" @submit.prevent="valider">
         <div class="inputGroup">
-          <label for="deleteValueChild">{{ $t('basics.child') }}</label>
+          <label for="deleteValueChild">{{ $t('basics.name') }}</label>
           <select id="deleteValueChild"
                   v-model="selectedChild" required @change="this.$refs.select.children[0].selected = true">
             <option disabled selected value="">{{ $t('placeholders.child') }}</option>
@@ -93,6 +93,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "@/style/configParts.scss";
 </style>

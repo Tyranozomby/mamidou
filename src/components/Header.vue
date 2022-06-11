@@ -11,7 +11,7 @@
         </svg>
       </div>
       <div id="toolButtonsBackground">
-        <div class="iconBall clickable" @click="this.$emit('show', 1)">
+        <div id="configButton" class="iconBall clickable" @click="this.$emit('show', 1)">
           <!--  Wrench Icon by Rank Sol on Iconscout  -->
           <svg class="icon" viewBox="0 0 32 32">
             <path
@@ -35,34 +35,17 @@
     </div>
     <h1>{{ $t("header.title") }}</h1>
     <div id="flags">
-      <country-flag
-          v-for="lang in languages"
-          :key="lang.title"
-          :country="lang.flag"
-          :rounded="true"
-          class="flag clickable"
-          size="big"
-          @click="changeLocale(lang.lang)"/>
+      <img alt="Drapeau fr" class="flag clickable" src="@/assets/flags/fr.svg" @click="changeLocale('fr')">
+      <img alt="Drapeau us" class="flag clickable" src="@/assets/flags/us.svg" @click="changeLocale('en')">
     </div>
   </header>
 </template>
 
 <script>
-import CountryFlag from "vue-country-flag-next"
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
-  components: {CountryFlag},
   emits: ["show"],
-  data() {
-    return {
-      languages: [
-        {flag: "us", lang: "en", title: "English"},
-        {flag: "fr", lang: "fr", title: "Français"}
-      ]
-    }
-  },
   methods: {
     changeLocale(locale) {
       localStorage.setItem('lang', locale)
@@ -72,17 +55,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 header {
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 30px;
   padding: 0 1rem;
-
   place-items: center;
   align-items: center;
-  background-color: var(--maximum-blue);
 }
 
 @media screen and (min-width: 1200px) {
@@ -110,13 +91,6 @@ header {
 }
 
 @media screen and (max-width: 800px) {
-  #toolButtons {
-    position: sticky;
-    flex-direction: column !important;
-    flex-wrap: wrap !important;
-    border-radius: 50px;
-  }
-
   #toolButtonsBackground {
     display: none;
     flex-direction: column !important;
@@ -124,29 +98,50 @@ header {
     column-gap: 0;
   }
 
-  #toolButtons .iconBall {
-    display: none;
+  #toolButtons {
+    position: sticky;
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    border-radius: 50px;
+
+    &:hover #reducedIcon {
+      transform: rotateZ(90deg);
+    }
+
+    .iconBall {
+      display: none;
+    }
+
+    #reducedIcon {
+      display: flex !important;
+      fill: var(--red);
+      transition: .5s;
+    }
+
+    &:hover #toolButtonsBackground {
+      display: flex;
+      position: absolute;
+      padding-top: calc(var(--iconBallSize) + .5rem);
+      row-gap: .5rem;
+    }
   }
 
-  #toolButtons #reducedIcon {
-    display: flex !important;
-    fill: var(--red-salsa);
-    transition: .5s;
-  }
+  #toolButtonsBackground {
 
-  #toolButtons:hover #toolButtonsBackground, #toolButtonsBackground:hover {
-    display: flex;
-    position: absolute;
-    padding-top: calc(var(--iconBallSize) + .5rem);
-    row-gap: .5rem;
-  }
+    &:hover {
+      display: flex;
+      position: absolute;
+      padding-top: calc(var(--iconBallSize) + .5rem);
+      row-gap: .5rem;
+    }
 
-  #toolButtons:hover #reducedIcon, #toolButtonsBackground:hover #reducedIcon {
-    transform: rotateZ(90deg);
-  }
+    &:hover #reducedIcon {
+      transform: rotateZ(90deg);
+    }
 
-  #toolButtonsBackground .iconBall {
-    display: flex;
+    .iconBall {
+      display: flex;
+    }
   }
 }
 
@@ -158,23 +153,23 @@ header {
   height: var(--iconBallSize) !important;
   border-radius: 50%;
   background-color: var(--white);
-  box-shadow: 0 0 15px -5px var(--rich-black);
+  box-shadow: 0 0 15px -5px var(--dark-blue);
   transition: .2s background-color;
+
+  &:hover {
+    background-color: var(--red);
+
+    > .icon {
+      fill: var(--white);
+    }
+  }
 }
 
 .icon {
   width: 70%;
   height: 70%;
-  fill: var(--red-salsa);
+  fill: var(--red);
   transition: .2s fill;
-}
-
-.iconBall:hover {
-  background-color: var(--red-salsa);
-}
-
-.iconBall:hover > .icon {
-  fill: var(--white)
 }
 
 #flags {
@@ -185,23 +180,31 @@ header {
   max-width: 20rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   #flags {
     display: none;
   }
 }
 
 .flag {
-  zoom: 150%;
-  border: var(--maximum-blue) 2px solid;
+  width: 5rem;
+  border-radius: 10px;
+  border: transparent 2px solid;
   transition: .3s border linear;
-}
 
-.flag:hover {
-  border: var(--fluorescent-blue) 2px solid;
+  &:hover {
+    border: var(--light-blue) 2px solid;
+  }
 }
 
 .clickable:hover {
   cursor: pointer;
 }
+
+@media screen and (max-width: 400px) {
+  #configButton {
+    display: none !important;
+  }
+}
+
 </style>

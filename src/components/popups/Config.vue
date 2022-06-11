@@ -1,5 +1,6 @@
 <template>
-  <div class="popup" ref="config">
+  <div ref="config" class="popup">
+    <div class="blocker" @click="close"/>
     <div class="container">
       <div>
         <close-button @click="close"/>
@@ -71,9 +72,9 @@ export default {
 }
 </script>
 
-<style scoped>
-/*Ajoute ce fichier partout, il n'est pas limité comme les éléments ajoutés habituellement*/
-@import "@/style/configParts.css";
+<style lang="scss" scoped>
+@import "@/style/popups.scss";
+@import "@/style/configParts.scss";
 
 .center {
   display: flex;
@@ -87,7 +88,7 @@ export default {
   justify-content: center;
   background-color: var(--white);
   border-radius: 50px;
-  margin: 2rem 8rem;
+  margin: 2rem 0;
   padding: 1rem 0;
 }
 
@@ -100,8 +101,7 @@ export default {
 }
 
 .selected {
-  color: var(--red-salsa);
-  background-color: var(--fluorescent-blue);
+  background-color: var(--light-blue);
 }
 
 #editing {

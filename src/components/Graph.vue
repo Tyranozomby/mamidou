@@ -233,43 +233,29 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .graph {
   height: 40rem !important;
   width: 85rem !important;
   padding: 5px;
   background-color: var(--graph-bg);
-  border: var(--maximum-blue) 5px solid;
+  backdrop-filter: blur(5px);
+  border: var(--dark-blue) 5px solid;
   border-radius: 10px;
-}
 
-@media screen and (min-width: 800px) and (max-width: 1200px) {
-  .graph {
-    height: 30rem !important;
-    width: 60rem !important;
-  }
-}
-
-@media screen and (min-width: 600px) and (max-width: 799px) {
-  .graph {
+  @media screen and (min-width: 600px) and (max-width: 799px) {
     height: 30rem !important;
     width: 45rem !important;
   }
-}
 
-@media screen and (min-width: 400px) and (max-width: 599px) {
-  .graph {
+  @media screen and (min-width: 450px) and (max-width: 599px) {
     height: 30rem !important;
     width: 25rem !important;
   }
-}
 
-@media screen and (max-width: 399px) {
-  .graph {
+  @media screen and (max-width: 449px) {
     height: 25rem !important;
-    width: 20rem !important;
+    width: 18rem !important;
   }
 }
-
-
 </style>

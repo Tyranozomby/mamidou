@@ -17,7 +17,7 @@ export default {
 #closeSvgButton {
   width: 2rem;
   height: 2rem;
-  fill: var(--red-salsa);
+  fill: var(--red);
   cursor: pointer;
   position: absolute;
   right: 1rem;
@@ -29,6 +29,6 @@ export default {
 
 #closeSvgButton:hover {
   fill: var(--white);
-  background-color: var(--red-salsa);
+  background-color: var(--red);
 }
 </style>

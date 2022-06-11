@@ -3,7 +3,8 @@
     <p>{{ $t("config.notConnected") }}</p>
     <form ref="form" @submit.prevent="login">
       <div id="input">
-        <input ref="password" id="password" :placeholder="$t('config.password')" autocomplete="password" autofocus="autofocus"
+        <input id="password" ref="password" :placeholder="$t('config.password')" autocomplete="password"
+               autofocus="autofocus"
                type="password"/>
 
         <svg ref="eye-on" viewBox="0 0 24 24" @click="eye(1)">
@@ -25,7 +26,7 @@
         </svg>
       </div>
       <span ref="login_error" class="error" style="display: none">{{ $t('config.wrong_password') }}</span>
-      <button id="submit" type="submit">{{$t("config.login")}}</button>
+      <button id="submit" type="submit">{{ $t("config.login") }}</button>
     </form>
   </div>
 </template>
@@ -64,7 +65,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/style/configParts.scss";
+
 form {
   display: flex;
   flex-direction: column;
@@ -88,13 +91,13 @@ form {
 #input {
   display: flex;
   align-items: center;
-}
 
-#input svg {
-  margin-left: -3rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  fill: var(--rich-black)
+  svg {
+    margin-left: -3rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: var(--dark-blue)
+  }
 }
 
 #password {
@@ -107,7 +110,6 @@ form {
 #submit {
   height: 4rem;
   width: 18rem;
-  background-color: var(--red-salsa);
   text-align: center;
   cursor: pointer;
   align-items: center;
@@ -118,5 +120,14 @@ input {
   outline: none;
   border: none;
   border-radius: 15px;
+}
+
+.error {
+  margin: 0;
+  padding: 0;
+  color: var(--red);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
 }
 </style>

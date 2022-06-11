@@ -1,0 +1,83 @@
+@font-face {
+  font-family: 'Lovelo';
+  font-style: normal;
+  font-weight: 900;
+  src: local("Lovelo"), url(https://fonts.cdnfonts.com/s/18519/Lovelo-Black.woff) format("woff");
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v28/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0B4gaVI.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --dark-blue: #0075a2;
+  --light-blue: #54f2f2;
+  --white: #fcfcfc;
+  --red: #ef486f;
+  --black: #481620;
+  --graph-bg: rgba(235, 245, 250, 0.3);
+
+  --iconBallSize: 4.5rem;
+
+  @media screen and (max-width: 600px) {
+    --iconBallSize: 3.5rem;
+  }
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Lovelo', sans-serif;
+  font-size: 4.5rem;
+  color: var(--dark-blue);
+
+  @media screen and (max-width: 450px) {
+    font-size: 3rem;
+  }
+}
+
+h2 {
+  margin-top: 1rem;
+  font-family: 'Lovelo', sans-serif;
+  font-size: 3rem;
+  color: var(--light-blue);
+  text-shadow: -1px -1px 0 var(--dark-blue), 0 -1px 0 var(--dark-blue), 1px -1px 0 var(--dark-blue), 1px 0 0 var(--dark-blue), 1px 1px 0 var(--dark-blue), 0 1px 0 var(--dark-blue), -1px 1px 0 var(--dark-blue), -1px 0 0 var(--dark-blue);
+}
+
+h3 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 2rem;
+  color: var(--black)
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 1.6rem;
+  color: var(--black);
+}
+
+u {
+  text-decoration: underline solid var(--dark-blue) 2px;
+}
+
+input, select {
+  font-family: 'Open Sans', sans-serif;
+  font-size: medium;
+}

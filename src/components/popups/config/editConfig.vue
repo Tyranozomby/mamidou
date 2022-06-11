@@ -4,7 +4,7 @@
       <h3>{{ $t("config.child") }}</h3>
       <form class="configForm editChild" @submit.prevent="valider">
         <div class="inputGroup">
-          <label for="editChildChild">{{ $t('basics.child') }}</label>
+          <label for="editChildChild">{{ $t('basics.name') }}</label>
           <select id="editChildChild" v-model="selectedChildChild" required>
             <option disabled selected value="">{{ $t('placeholders.child') }}</option>
             <option v-for="name in $store.getters.names" :key="name">{{ name }}</option>
@@ -32,7 +32,7 @@
       <h3>{{ $t("config.value") }}</h3>
       <form class="configForm editValue" @submit.prevent="valider">
         <div class="inputGroup">
-          <label for="editValueChild">{{ $t('basics.child') }}</label>
+          <label for="editValueChild">{{ $t('basics.name') }}</label>
           <select id="editValueChild" v-model="selectedChildValue" required
                   @change="this.$refs.select.children[0].selected = true">
             <option disabled selected value="">{{ $t('placeholders.child') }}</option>
@@ -101,6 +101,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "@/style/configParts.scss";
 </style>

@@ -1,5 +1,3 @@
-require('dotenv-flow').config();
-
 const {getToken, validToken} = require("./token.js")
 
 /**

@@ -1,5 +1,6 @@
 <template>
   <div ref="help" class="popup">
+    <div class="blocker" @click="close"/>
     <div class="container">
       <div>
         <close-button @click="close"/>
@@ -30,7 +31,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/style/popups.scss";
+
 .container {
   row-gap: 2rem;
 }
@@ -38,17 +41,18 @@ export default {
 .content {
   margin: 2.5rem 2rem 2rem;
   text-align: center;
+  overflow-y: auto;
 }
 
 small {
   font-family: 'Open Sans', sans-serif;
   font-size: 20px;
-  color: var(--rich-black);
+  color: var(--dark-blue);
   text-align: center;
 }
 
 .red {
-  color: var(--red-salsa);
+  color: var(--red);
   font-weight: bold;
 }
 </style>
