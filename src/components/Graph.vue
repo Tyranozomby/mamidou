@@ -1,6 +1,7 @@
 <template>
-  <div v-if="this.data != null">
-    <Scatter :chart-data="type==='ta' ? dataAge : dataDate" :chart-options="type==='ta' ? optionsAge : optionsDate"
+  <div v-if="this.data != null" id="graph">
+    <Scatter ref="chart" :chart-data="type==='ta' ? dataAge : dataDate"
+             :chart-options="type==='ta' ? optionsAge : optionsDate"
              class="graph"/>
   </div>
 </template>
@@ -10,10 +11,12 @@ import {Scatter} from 'vue-chartjs';
 import 'chartjs-adapter-date-fns';
 
 import {Chart, registerables} from "chart.js";
+import zoomPlugin from "chartjs-plugin-zoom"
 import ParseDate from "date-fns/parse";
 import {fr} from "date-fns/locale";
 
 Chart.register(...registerables);
+Chart.register(zoomPlugin)
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -95,6 +98,23 @@ export default {
     optionsAge: function () {
       return {
         plugins: {
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              pinch: {
+                enabled: true
+              }
+            },
+            pan: {
+              enabled: true
+            },
+            limits: {
+              x: {min: 0, max: 30, minRange: 5},
+              y: {min: 50, max: 190, minRange: 20}
+            }
+          },
           legend: {
             position: 'bottom',
             labels: {
@@ -155,12 +175,36 @@ export default {
             }
           }
         },
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        transitions: {
+          zoom: {
+            animation: {
+              duration: 0
+            }
+          }
+        }
       }
     },
     optionsDate: function () {
       return {
         plugins: {
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              pinch: {
+                enabled: true
+              }
+            },
+            pan: {
+              enabled: true
+            },
+            limits: {
+              x: {min: 1230764400000, max: 1893452400000}, // min: 2009, max: 2030
+              y: {min: 50, max: 190}
+            }
+          },
           legend: {
             position: 'bottom',
             labels: {
@@ -228,15 +272,24 @@ export default {
       const year = date.getFullYear();
 
       return day + " " + month + " " + year
+    },
+    resetZoom() {
+      this.$refs.chart.chart.resetZoom();
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+#graph {
+  display: flex;
+  max-width: 85vw !important;
+  max-height: 50vh !important;
+}
+
 .graph {
-  height: 40rem !important;
-  width: 85rem !important;
+  height: 40rem;
+  width: 85rem;
   padding: 5px;
   background-color: var(--graph-bg);
   backdrop-filter: blur(5px);
@@ -244,18 +297,23 @@ export default {
   border-radius: 10px;
 
   @media screen and (min-width: 600px) and (max-width: 799px) {
-    height: 30rem !important;
-    width: 45rem !important;
+    height: 30rem;
+    width: 45rem;
   }
 
   @media screen and (min-width: 450px) and (max-width: 599px) {
-    height: 30rem !important;
-    width: 25rem !important;
+    height: 30rem;
+    width: 25rem;
   }
 
   @media screen and (max-width: 449px) {
-    height: 25rem !important;
-    width: 18rem !important;
+    height: 25rem;
+    width: 18rem;
   }
+}
+
+.reset {
+  width: 6rem;
+  height: 3rem;
 }
 </style>

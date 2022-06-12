@@ -8,17 +8,19 @@
   </div>
 
   <div id="app-content">
-    <div class="toggle">
-      <h3 style="grid-area: 1 / 2 / 2 / 3;">{{ $t("main.mode") }}</h3>
-      <h3 style="grid-area: 2 / 1 / 3 / 2;">{{ $t("basics.age") }}</h3>
-      <div id="toggleButton" style="grid-area: 2 / 2 / 3 / 3;">
-        <input id="toggle" v-model="toggle" type="checkbox">
-        <label class="button" for="toggle"/>
+    <div style="display: flex; align-items: center; flex-direction: column">
+      <div class="toggle">
+        <h3 style="grid-area: 1 / 2">{{ $t("main.mode") }}</h3>
+        <h3 style="grid-area: 2 / 1">{{ $t("basics.age") }}</h3>
+        <div id="toggleButton" style="grid-area: 2 / 2">
+          <input id="toggle" v-model="toggle" type="checkbox">
+          <label class="button" for="toggle"/>
+        </div>
+        <h3 style="grid-area: 2 / 3">{{ $t("basics.date") }}</h3>
+        <button class="reset" style="grid-area: 3 / 2" @click="$refs.graph.resetZoom()">Reset zoom</button>
       </div>
-      <h3 style="grid-area: 2 / 3 / 3 / 4;">{{ $t("basics.date") }}</h3>
+      <Graph v-if="$store.getters.children != null && $store.getters.data != null" ref="graph" :type="type"/>
     </div>
-
-    <Graph v-if="$store.getters.children != null && $store.getters.data != null" id="graph" :type="type"/>
   </div>
 
   <Config v-if="mode === 1" @close="mode = 0"/>
@@ -112,14 +114,11 @@ export default {
 #app-content {
   display: flex;
   flex-direction: column !important;
-  flex-grow: 1;
   align-items: center;
   justify-content: center;
 }
 
-#graph {
-  display: flex;
-  max-width: 85vw !important;
-  max-height: 70vh !important;
+.reset {
+  width: 12rem;
 }
 </style>
