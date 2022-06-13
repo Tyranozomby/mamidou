@@ -175,6 +175,15 @@ export default {
             }
           }
         },
+        scales: {
+          y: {
+            ticks: {
+              callback: (value) => {
+                return value.toFixed(1)
+              }
+            }
+          }
+        },
         maintainAspectRatio: false,
         transitions: {
           zoom: {
@@ -202,7 +211,7 @@ export default {
             },
             limits: {
               x: {min: 1230764400000, max: 1893452400000}, // min: 2009, max: 2030
-              y: {min: 50, max: 190}
+              y: {min: 50, max: 190, minRange: 20}
             }
           },
           legend: {
@@ -255,6 +264,13 @@ export default {
             time: {
               unit: "year"
             }
+          },
+          y: {
+            ticks: {
+              callback: (value) => {
+                return value.toFixed(1)
+              }
+            }
           }
         },
         maintainAspectRatio: false
@@ -292,7 +308,6 @@ export default {
   width: 85rem;
   padding: 5px;
   background-color: var(--graph-bg);
-  backdrop-filter: blur(5px);
   border: var(--dark-blue) 5px solid;
   border-radius: 10px;
 
