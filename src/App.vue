@@ -83,8 +83,6 @@ export default {
 
       if (tok.status === 200)
         this.$store.commit("login", {token: tok.data})
-      else
-        this.$store.commit("logout")
     }
   }
 }
