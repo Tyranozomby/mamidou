@@ -1,3 +1,3 @@
 # mamidou
 
-Projet d'eliott
+Graphe de tailles interactif web
