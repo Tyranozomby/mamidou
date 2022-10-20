@@ -305,7 +305,7 @@ export default {
 
 .graph {
   height: 40rem;
-  width: 85rem;
+  width: 85vw;
   padding: 5px;
   background-color: var(--graph-bg);
   border: var(--dark-blue) 5px solid;
